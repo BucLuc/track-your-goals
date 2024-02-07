@@ -1,0 +1,21 @@
+.page-container{
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    background-color:  rgb(243 244 246); 
+}
+
+.page-container h2 {
+    margin-top: 1.5rem;
+    text-align: center;
+
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.page-container img {
+    margin-inline: auto;
+}

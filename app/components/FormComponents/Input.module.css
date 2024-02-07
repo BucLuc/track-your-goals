@@ -1,0 +1,29 @@
+.input {
+    margin-bottom: 10px;
+}
+
+.input label{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+
+
+.input input {
+    width: 100%;
+    border: 1px solid #D3D3D3;
+    box-sizing: border-box;
+    margin-top: 6px;
+    padding: 10px 12px;
+    border: 1px solid #D3D3D3; 
+    border-radius: 5px; 
+    box-shadow: 0px 4px 8px 0px rgba(211, 211, 211, 0.5); 
+    outline: none; 
+  }
+  
+  .input input:focus {
+    border-color: var(--primary); /* Changes border color on focus */
+    box-shadow: 0px 4px 6px 0px rgba(211, 211, 211, 0.5); /* Slightly more prominent shadow with less spread on focus */
+  }

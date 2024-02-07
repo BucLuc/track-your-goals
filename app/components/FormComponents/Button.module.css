@@ -1,0 +1,18 @@
+.primary {
+    padding: 10px 20px;
+    background-color: #258CF2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .primary:hover {
+    background-color: #1a6cb7;
+  }
