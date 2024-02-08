@@ -23,7 +23,7 @@ const Input: React.FC<InputProps> = ({
     return (
         <div className={styles.input}>
             <label htmlFor={id}>{label}</label>
-            <input id={id} name={id} value={value} required={required} onChange={onChange} type={type} autoComplete={id} disabled={disabled} />
+            <input id={id} name={id} value={value} required={required} onChange={onChange} type={type} autoComplete={id} disabled={disabled} placeholder={label} />
         </div>
     )
 }

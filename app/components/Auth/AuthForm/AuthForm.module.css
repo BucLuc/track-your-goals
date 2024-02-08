@@ -1,5 +1,5 @@
 .form-container{
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     margin-inline: auto;
     max-width: 60%;
     min-width: 27%;
@@ -15,4 +15,37 @@
 
 .input-fields {
     margin-bottom: 30px;
+}
+
+.seperator {
+    color: var(--gray-3);
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.seperator::before, .seperator::after{
+    content: '';
+    width: 100%;
+    height: 1px;
+    background-color: var(--gray-1);
+}
+
+.social-buttons{
+    display: flex;
+    gap: 15px;
+}
+
+.toggle-section {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    display: flex;
+    gap: 3px;
+}
+
+.toggle-section .clickable {
+    text-decoration: underline;
+    cursor: pointer;
 }

@@ -1,0 +1,19 @@
+.social-button {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px 5px;
+    border-radius: 3px;
+    background-color: transparent;
+    border: 1px solid var(--gray-1);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.social-button:hover {
+    background-color: var(--gray-0);
+    border-color: var(--gray-2);
+    transform: scale(1.1);
+}

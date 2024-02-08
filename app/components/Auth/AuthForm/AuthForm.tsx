@@ -1,9 +1,12 @@
 'use client'
+import { BsGithub, BsGoogle } from 'react-icons/bs';
 import Button from '../../FormComponents/Button';
 import Input from '../../FormComponents/Input';
+import AuthSocialButton from '../AuthSocialButton/AuthSocialButton';
 import styles from './AuthForm.module.css'
 
 import { useState } from "react";
+import { registerWithEmailPassword, loginWithEmailPassword, loginWithGoogle, loginWithGitHub } from '@/app/services/firebaseService';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -20,14 +23,24 @@ export default function AuthForm() {
         setVariant(variant === 'LOGIN' ? 'REGISTER' : 'LOGIN')
     };
 
+    const handleSocialAction = (socialType: string) => {
+        if (socialType === 'Google'){
+            loginWithGoogle()
+        }
+
+        if (socialType === 'Github'){
+            loginWithGitHub()
+        }
+    }
+
     const onSubmit = (event: any) => {
         event.preventDefault();
         if (variant === 'REGISTER') {
-
+            registerWithEmailPassword(formData.name, formData.email, formData.password)
         } else {
-
+            loginWithEmailPassword(formData.email, formData.password)
         }
-        console.log(formData)
+        setFormData({name: '', email: '', password: ''})
     }
 
     const handleInputChange = (event: any) => {
@@ -47,9 +60,21 @@ export default function AuthForm() {
                     <Input type='email' id='email' label='Email' onChange={(e:void) => handleInputChange(e)} />
                     <Input type='password' id='password' label='Passwort' onChange={(e:void) => handleInputChange(e)} />
                     </div>
-                    <Button type='submit' fullwidth>Submit</Button>
-                    <div onClick={toggleVariant}>
-                        {variant === 'LOGIN' ? 'Create an Account' : 'Login'}
+                    <Button type='submit' fullwidth>{variant === 'LOGIN' ? 'Login' : 'Sign in'}</Button>
+                    <span className={styles.seperator}>
+                        or
+                    </span>
+                    <div className={styles['social-buttons']}>
+                        <AuthSocialButton onClick={() => handleSocialAction('Google')} icon={BsGoogle} />
+                        <AuthSocialButton onClick={() => handleSocialAction('Github')} icon={BsGithub} />
+                    </div>
+                     <div className={styles['toggle-section']}>
+                        <div>
+                            {variant === 'LOGIN' ? 'Dont have an account?' : 'Already have an account?'}
+                        </div>
+                        <div className={styles.clickable} onClick={toggleVariant}>
+                        {variant === 'LOGIN' ? ' create one!' : ' login'}
+                        </div>
                     </div>
                 </form>
             </div>

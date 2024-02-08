@@ -14,7 +14,6 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
@@ -68,3 +67,96 @@ export const documentExists = async (collectionName: string, documentId: string)
 export const getUserInfos = async (userID: string) => {
   const userInfo = await getDocument('users', userID);
 }
+
+// Register a new user with email and password with error handling
+export const registerWithEmailPassword = async (name: string, email: string, password: string) => {
+  try {
+    const result = await auth.createUserWithEmailAndPassword(email, password);
+    if (result.user) {
+      await result.user.updateProfile({
+        displayName: name
+      });
+    }
+    return { success: true, user: result.user };
+  } catch (error: any) {
+    console.error("Error registering new user:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+// Sign in with email and password with error handling
+export const loginWithEmailPassword = async (email: string, password: string) => {
+  try {
+    const result = await auth.signInWithEmailAndPassword(email, password);
+    return { success: true, user: result.user };
+  } catch (error: any) {
+    console.error("Error logging in user:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+// Sign in with Google with error handling
+export const loginWithGoogle = async () => {
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const result = await auth.signInWithPopup(provider);
+    return { success: true, user: result.user };
+  } catch (error: any) {
+    console.error("Error logging in with Google:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+// Sign in with GitHub with error handling
+export const loginWithGitHub = async () => {
+  try {
+    const provider = new firebase.auth.GithubAuthProvider();
+    const result = await auth.signInWithPopup(provider);
+    return { success: true, user: result.user };
+  } catch (error: any) {
+    console.error("Error logging in with GitHub:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const logout = async () => {
+  try {
+    await auth.signOut();
+    console.log('User successfully signed out.');
+  } catch (error) {
+    console.error('Error signing out:', error);
+    throw error; // Rethrow the error to handle it in the calling code if necessary
+  }
+};
+
+export const getCurrentUserAndDocument = async () => {
+  firebase.auth().currentUser?.reload();
+  const currentUser = firebase.auth().currentUser;
+  
+  if (!currentUser) {
+    console.log('No user is currently logged in.');
+    return null; 
+  }
+
+  try {
+    const userDocument = await getDocument('users', currentUser.uid);
+
+    if (!userDocument) {
+      console.log('User document does not exist.');
+      return currentUser;
+    }
+
+    const mergedUserData = {
+      uid: currentUser.uid,
+      email: currentUser.email,
+      displayName: currentUser.displayName,
+      ...userDocument
+    };
+
+    return mergedUserData;
+
+  } catch (error) {
+    console.error("Error fetching user document with getDocument:", error);
+    return null; 
+  }
+};
