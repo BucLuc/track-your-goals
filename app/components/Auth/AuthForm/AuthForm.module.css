@@ -1,14 +1,13 @@
 .form-container{
     margin-top: 0.5rem;
     margin-inline: auto;
-    max-width: 60%;
-    min-width: 27%;
+    width: 80%;
+    max-width: 600px;
 }
 
 .form-content{
     background-color: white;
     padding: 2rem 2rem;
-
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     border-radius: 0.5rem;
 }
@@ -35,12 +34,13 @@
 
 .social-buttons{
     display: flex;
+    
     gap: 15px;
 }
 
 .toggle-section {
     margin-top: 15px;
-    font-size: 0.8rem;
+    font-size: 0.825rem;
     display: flex;
     gap: 3px;
 }
@@ -48,4 +48,5 @@
 .toggle-section .clickable {
     text-decoration: underline;
     cursor: pointer;
+    color: blue;
 }

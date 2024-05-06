@@ -1,12 +1,15 @@
 'use client'
 import { BsGithub, BsGoogle } from 'react-icons/bs';
-import Button from '../../FormComponents/Button';
-import Input from '../../FormComponents/Input';
-import AuthSocialButton from '../AuthSocialButton/AuthSocialButton';
+import {useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth'
 import styles from './AuthForm.module.css'
 
+import Button from '@components/FormComponents/Buttons/Button';
+import Input from '@components/FormComponents/Inputs/Input';
+import AuthSocialButton from '@components/FormComponents/SocialButtons/AuthSocialButton';
+
+
 import { useState } from "react";
-import { registerWithEmailPassword, loginWithEmailPassword, loginWithGoogle, loginWithGitHub } from '@/app/services/firebaseService';
+import {auth} from '@/app/services/firebaseService'
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -19,28 +22,44 @@ export default function AuthForm() {
         password: ''
     })
 
+    const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
+    const [signInUserWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+
     const toggleVariant = () => {
         setVariant(variant === 'LOGIN' ? 'REGISTER' : 'LOGIN')
     };
 
     const handleSocialAction = (socialType: string) => {
         if (socialType === 'Google'){
-            loginWithGoogle()
+            
         }
 
         if (socialType === 'Github'){
-            loginWithGitHub()
+            
         }
     }
 
-    const onSubmit = (event: any) => {
+    const onSubmit = async(event: any) => {
         event.preventDefault();
         if (variant === 'REGISTER') {
-            registerWithEmailPassword(formData.name, formData.email, formData.password)
+            try {
+                const res = await createUserWithEmailAndPassword(formData.email, formData.password)
+                console.log(res)
+
+                setFormData({name: '', email: '', password: ''})
+            } catch(e){
+                console.error(e)
+            }
         } else {
-            loginWithEmailPassword(formData.email, formData.password)
+            try {
+                const res = await signInUserWithEmailAndPassword(formData.email, formData.password)
+                console.log(res)
+
+                setFormData({name: '', email: '', password: ''})
+            } catch(e){
+                console.error(e)
+            }
         }
-        setFormData({name: '', email: '', password: ''})
     }
 
     const handleInputChange = (event: any) => {
@@ -57,8 +76,8 @@ export default function AuthForm() {
                 <form onSubmit={onSubmit}>
                     <div className={styles['input-fields']}>
                     {variant === 'REGISTER' && <Input id='name' label='Name' value={formData.name} onChange={(e:void) => handleInputChange(e)} />}
-                    <Input type='email' id='email' label='Email' onChange={(e:void) => handleInputChange(e)} />
-                    <Input type='password' id='password' label='Passwort' onChange={(e:void) => handleInputChange(e)} />
+                    <Input type='email' id='email' label='Email' value={formData.email} onChange={(e:void) => handleInputChange(e)} />
+                    <Input type='password' id='password' label='Passwort' value={formData.password} onChange={(e:void) => handleInputChange(e)} />
                     </div>
                     <Button type='submit' fullwidth>{variant === 'LOGIN' ? 'Login' : 'Sign in'}</Button>
                     <span className={styles.seperator}>
