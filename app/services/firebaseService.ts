@@ -1,5 +1,6 @@
 import {initializeApp, getApps, getApp} from 'firebase/app'
 import {getAuth} from 'firebase/auth'
+import { getFirestore, doc, collection, getDoc, addDoc, setDoc } from 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -13,7 +14,45 @@ const firebaseConfig = {
 };
 
 const app = !getApps.length ? initializeApp(firebaseConfig) : getApp()
-
 const auth = getAuth(app)
+const db = getFirestore(app);
 
-export {app, auth}
+async function getDocument(collection : string, id: string) {
+  const docRef = doc(db, collection, id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()){
+    return { id, ...docSnap.data() };
+  }
+  return undefined
+}
+
+async function addDocument(collectionName: string, data: object) {
+  try {
+    const docRef = await addDoc(collection(db, collectionName), data);
+    console.log("Document written with ID: ", docRef.id);
+    return docRef.id; 
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    return null; 
+  }
+}
+
+async function setDocument(collectionName: string, id: string, data: object){
+  try {
+    await setDoc(doc(db, collectionName, id), data)
+  } catch (e){
+    console.error(e)
+  }
+}
+
+
+async function checkForUserDetailOrCreate(response: any) {
+  const user = response.user
+  const userData = await getDocument('users', user.uid)
+  if (!userData) {
+      await setDocument('users', response.user.uid, { 'displayName': user.displayName, 'email': user.email })
+  }
+}
+
+export {app, auth, getDocument, addDocument, setDocument, checkForUserDetailOrCreate}
