@@ -1,0 +1,92 @@
+.nav {
+    width: 100vw;
+}
+
+.nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 35px;
+    font-size: 1.2rem;
+}
+
+.nav ul a {
+    text-decoration: none;
+}
+
+.nav-content ul li {
+    transition: transform 0.3s linear;
+}
+
+.nav-content ul li:hover {
+    transform: scale(1.05);
+} 
+
+.nav-content ul li.active {
+    transform: scale(1.2);
+    border-bottom: 1px solid var(--blue-text) ;
+}
+
+.nav-content ul li.active:hover {
+    transform: scale(1.25); 
+}
+
+.nav .nav-content {
+    width: 70%;
+    height: 100%;
+    margin: 0 auto 0 auto;
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+
+.nav .nav-content .logo a{
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav .nav-content .logo img {
+    max-height: 50px;
+}
+
+.nav .nav-content .user {
+    position: relative;
+    cursor: pointer;
+}
+
+.nav .nav-content .user .img-container {
+    overflow: hidden;
+    border-radius: 50%;
+    max-height: 50px;
+}
+
+.nav .nav-content .user .menu {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    background-color: white; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    padding: 10px; 
+    width: 120px; 
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
+    z-index: 1000; 
+}
+
+.nav .nav-content .user .menu button {
+    width: 100%; 
+    padding: 8px 0; 
+    text-align: center; 
+    border: none; 
+    background-color: #f8f8f8; 
+    cursor: pointer; 
+}
+
+.nav .nav-content .user .menu button:hover {
+    background-color: #e7e7e7; 
+}

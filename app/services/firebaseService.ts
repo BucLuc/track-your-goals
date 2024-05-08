@@ -17,7 +17,7 @@ const app = !getApps.length ? initializeApp(firebaseConfig) : getApp()
 const auth = getAuth(app)
 const db = getFirestore(app);
 
-async function getDocument(collection : string, id: string) {
+async function getDocument(collection : string, id: string) : Promise<any> {
   const docRef = doc(db, collection, id);
   const docSnap = await getDoc(docRef);
 

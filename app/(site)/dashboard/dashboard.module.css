@@ -1,0 +1,71 @@
+.body-container {
+    width: 70%;
+    margin-inline: auto;
+}
+
+.body-container h1 {
+    text-align: center;
+}
+
+.body-container h2 {
+    text-align: center;
+}
+
+.weeks {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+}
+
+.week {
+    height: 60px;
+    width: 60px;
+    border-radius: 10px;
+    background-color: var(--blue-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform 0.3s ease-in-out;
+}
+
+.week:hover {
+    transform: scale(1.1);
+}
+
+.week a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.8rem;
+}
+
+.add-week {
+    background-color: var(--secondary);
+    animation: scaleUpDown 2s infinite ease-in-out;
+}
+
+.add-week a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-week img {
+    max-width: 80%;
+}
+
+
+
+.finished {
+    background-color: var(--green);
+}
+
+@keyframes scaleUpDown {
+    0%, 100% {
+      transform: scale(1); /* Original size */
+    }
+    50% {
+      transform: scale(1.05); /* Scaled up by 50% */
+    }
+  }

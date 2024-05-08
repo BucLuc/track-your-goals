@@ -1,5 +1,5 @@
 import AuthForm from "@/app/components/Auth/AuthForm/AuthForm";
-import styles from "@/app/styles/login.module.css";
+import styles from "./login.module.css";
 import Image from "next/image"
 
 export default function Login() {
