@@ -6,7 +6,7 @@ import { signOut, User } from 'firebase/auth';
 
  
 interface NavbarProps {
-    activeLink: "HOME" | "TEMPLATE" | "ACTIVITIES" | undefined ;
+    activeLink?: "HOME" | "TEMPLATE" | "ACTIVITIES" | undefined ;
     user?: User | null ;
 }
  
@@ -34,9 +34,10 @@ const Navbar: React.FC<NavbarProps> = ({ activeLink, user }) => {
                         <img alt="userIcon" src={user && user.photoURL ? user.photoURL : "/img/user-icon.png"} width={50} height={50}/>
                     </div>   
                 {isHovering && (
-                        <div className={styles.menu}>
-                            <button onClick={() => signOut(auth)}>Logout</button>
-                        </div>
+                    <div className={styles.menu}>
+                        {user && <a href="#" onClick={() => signOut(auth)}>Abmelden</a>}
+                        {!user && <a href="/login">Anmelden</a>}
+                    </div>
                 )}
             </div>
         </div>

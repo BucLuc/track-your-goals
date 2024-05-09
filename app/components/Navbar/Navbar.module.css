@@ -67,26 +67,29 @@
 
 .nav .nav-content .user .menu {
     position: absolute;
-    top: 100%; 
+    top: 100%;
     left: 0;
-    background-color: white; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    padding: 10px; 
-    width: 120px; 
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
-    z-index: 1000; 
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 120px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1000;
 }
 
-.nav .nav-content .user .menu button {
-    width: 100%; 
-    padding: 8px 0; 
-    text-align: center; 
-    border: none; 
-    background-color: #f8f8f8; 
-    cursor: pointer; 
+.nav .nav-content .user .menu a {
+    display: block; /* Ensures the link fills the container like a button */
+    width: 100%;
+    padding: 8px 0;
+    text-align: center;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    border: none; /* Remove any default border for links */
+    color: black; /* Set text color */
+    text-decoration: none; /* Remove underline */
 }
 
-.nav .nav-content .user .menu button:hover {
-    background-color: #e7e7e7; 
+.nav .nav-content .user .menu a:hover {
+    background-color: #e7e7e7;
 }

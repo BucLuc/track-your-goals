@@ -8,6 +8,7 @@ import {auth} from '@/app/services/firebaseService'
 import { useRouter } from 'next/navigation'
 import {getDocument} from '@services/firebaseService'
 import Navbar from '@components/Navbar/Navbar';
+import TemplateTable from '@components/Tables/TemplateTable/TemplateTable';
 
 export default function Template() {
     const [user, loading, error] = useAuthState(auth);
@@ -31,6 +32,10 @@ export default function Template() {
     return(
         <div>
             <Navbar activeLink='TEMPLATE' user={user}/>
+            <div className={styles['body-container']}>
+                <h1>Deine Wochenvorlage</h1>
+                <TemplateTable templateParam={userDoc.template} userID={user?.uid} activities={userDoc.activities}/>
+            </div>
         </div>
     )
 }

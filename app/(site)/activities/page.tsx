@@ -8,6 +8,7 @@ import {auth} from '@/app/services/firebaseService'
 import { useRouter } from 'next/navigation'
 import {getDocument} from '@services/firebaseService'
 import Navbar from '@components/Navbar/Navbar';
+import ActivityTable from '@components/Tables/ActivityTable/ActivityTable';
 
 export default function Activities() {
     const [user, loading, error] = useAuthState(auth);
@@ -31,6 +32,10 @@ export default function Activities() {
     return(
         <div>
             <Navbar activeLink='ACTIVITIES' user={user}/>
+            <div className={styles['body-container']}>
+                <h1>Deine Aktivitäten</h1>
+                <ActivityTable activitiesParam={userDoc.activities} userID={user?.uid}/>
+            </div>
         </div>
     )
 }

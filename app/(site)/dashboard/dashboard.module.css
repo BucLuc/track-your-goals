@@ -5,6 +5,7 @@
 
 .body-container h1 {
     text-align: center;
+    font-size: 2.6em;
 }
 
 .body-container h2 {
@@ -12,10 +13,13 @@
 }
 
 .weeks {
+    width: 50%;
+    margin-inline: auto;
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .week {
@@ -42,7 +46,7 @@
 
 .add-week {
     background-color: var(--secondary);
-    animation: scaleUpDown 2s infinite ease-in-out;
+    
 }
 
 .add-week a {

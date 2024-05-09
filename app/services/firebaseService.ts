@@ -1,6 +1,6 @@
 import {initializeApp, getApps, getApp} from 'firebase/app'
 import {getAuth} from 'firebase/auth'
-import { getFirestore, doc, collection, getDoc, addDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, collection, getDoc, addDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -55,4 +55,18 @@ async function checkForUserDetailOrCreate(response: any) {
   }
 }
 
-export {app, auth, getDocument, addDocument, setDocument, checkForUserDetailOrCreate}
+async function updateField(docPath: string, field: string, values: any) {
+  const docRef = doc(db, docPath);
+
+  console.log(values)
+ 
+  try {
+    await updateDoc(docRef, {
+      [field]: values
+    });
+  } catch (error) {
+    console.error("Error updating array: ", error);
+  }
+}
+
+export {app, auth, getDocument, addDocument, setDocument, checkForUserDetailOrCreate, updateField}

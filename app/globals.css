@@ -4,7 +4,7 @@
   --secondary: #f39c12;
   --gray-0: #a9a9a9;
   --gray-1: #505050;
-  --dark-blue: #505050;
+  --dark-blue: #2b3d4f;
   --green: #2ecc70;
   --red: #e74d3c;
   --button-primary: #1a6cb7;
@@ -16,6 +16,13 @@ body {
   overflow-x: hidden;
 }
 
-* {
-  color: rgb(17 24 39);
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
