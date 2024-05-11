@@ -1,0 +1,25 @@
+.body-container {
+    width: 70%;
+    margin-inline: auto;
+}
+
+.body-container h1 {
+    text-align: center;
+    font-size: 2.6em;
+}
+
+.body-container .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+}
+
+.finish-button-section {
+    position: fixed;
+    bottom: 20px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 1000; 
+    font-size: 2.5rem;
+}

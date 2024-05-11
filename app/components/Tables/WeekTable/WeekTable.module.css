@@ -134,17 +134,18 @@
 
 .delete-button {
     visibility: hidden; 
-    cursor: pointer; 
     position: absolute; 
     right: 0; 
-    padding: 5px;
 }
 
 .table-row:hover .delete-button, .delete-button:hover {
     visibility: visible; 
 }
 
-.delete-button:hover {
-    background-color: #ff636385;
-    border-radius: 50%;
+.bad {
+    color: var(--red)
+}
+
+.good {
+    color: var(--green)
 }

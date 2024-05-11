@@ -1,14 +1,17 @@
 import styles from './ActivityTable.module.css'
 import { units, Activity } from '@config/config'
 import { useState, useEffect } from 'react';
-import {updateField} from '@services/firebaseService'
+import { updateField } from '@services/firebaseService'
+import Loading from '@components/Loading/Loading'
+import IconButton from '@components/IconButton/IconButton';
 
 interface TableProps {
     activitiesParam?: Activity[];
     userID?: string;
+    isLoading?: boolean;
 }
 
-const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID }) => {
+const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID, isLoading }) => {
 
     const [activities, setActivities] = useState<Activity[]>([]);
 
@@ -19,13 +22,17 @@ const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID }) => {
     }, [activitiesParam]);
 
     const handleInputSubmit = (index: number, newValue: string) => {
-        const newActivities = handleChange(index, 'name', newValue);
-        saveToDB(newActivities)
+        if (!activities.find(activity => activity.name === newValue) || newValue === "") {
+            const newActivities = handleChange(index, 'name', newValue);
+            saveToDB(newActivities)
+        } else alert(`Die Aktivität ${newValue} existiert bereits`)
     }
 
     const handleDropdownChange = (index: number, newValue: string) => {
-        const newActivities = handleChange(index, 'unit', newValue);
-        saveToDB(newActivities)
+        if (!activities.find(activity => activity.name === activities[index].name)){
+            const newActivities = handleChange(index, 'unit', newValue);
+            saveToDB(newActivities)
+        } else alert(`Die Aktivität ${activities[index].name} existiert bereits`)
     };
 
     const handleChange = (index: number, key: string, newValue: string) => {
@@ -40,12 +47,12 @@ const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID }) => {
     };
 
     const handleRemoveActivity = (index: number) => {
-        const newActivities = activities?.filter((_, i) => i!==index);
+        const newActivities = activities?.filter((_, i) => i !== index);
         setActivities(newActivities)
         saveToDB(newActivities)
     }
 
-    const saveToDB = async(newActivities: Activity[]) => {
+    const saveToDB = async (newActivities: Activity[]) => {
         updateField(`users/${userID}`, 'activities', newActivities)
     }
 
@@ -56,23 +63,25 @@ const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID }) => {
                 <p>Einheit</p>
             </div>
             <div className={styles['table-body']}>
-                {activities && activities.map((activity: Activity, index: any) => (
-                    <div key={index} className={styles['table-row']}>
-                        <input type="text" placeholder='Eingeben..' value={activity.name} className={styles['input']} onChange={(e) => handleChange(index, 'name', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
-                        <select value={activity.unit} className={styles['dropdown']} onChange={(e) => handleDropdownChange(index, e.target.value)}>
-                            {Object.keys(units).map((unitKey) => (
-                                <option key={unitKey} value={unitKey}>
-                                    {units[unitKey].displayName}
-                                </option>
-                            ))}
-                        </select>
-                        <span className={styles['delete-button']} onClick={() => handleRemoveActivity(index)}><img alt='delete-icon' src='img/eraser-icon.png' width={25}/></span>
-                    </div>
-                ))}
+                {isLoading ? <Loading /> : <div>
+                    {activities && activities.map((activity: Activity, index: any) => (
+                        <div key={index} className={styles['table-row']}>
+                            <input type="text" placeholder='Eingeben..' value={activity.name} className={styles['input']} onChange={(e) => handleChange(index, 'name', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
+                            <select value={activity.unit} className={styles['dropdown']} onChange={(e) => handleDropdownChange(index, e.target.value)}>
+                                {Object.keys(units).map((unitKey) => (
+                                    <option key={unitKey} value={unitKey}>
+                                        {units[unitKey].displayName}
+                                    </option>
+                                ))}
+                            </select>
+                            <span className={styles['delete-button']}><IconButton onClick={() => handleRemoveActivity(index)} icon='/img/eraser-icon.png' height={20} padding='5px' danger/></span>
+                        </div>
+                    ))}
                     <div className={`${styles['table-row']} ${styles['add-element']}`} onClick={() => setActivities(prevActivities => [...prevActivities, { name: "", unit: "" }])}>
                         <p>Aktivität hinzufügen</p>
                         <p>{units[""].displayName}</p>
                     </div>
+                </div>}
             </div>
         </div>
     )

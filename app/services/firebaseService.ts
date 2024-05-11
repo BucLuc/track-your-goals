@@ -58,8 +58,6 @@ async function checkForUserDetailOrCreate(response: any) {
 async function updateField(docPath: string, field: string, values: any) {
   const docRef = doc(db, docPath);
 
-  console.log(values)
- 
   try {
     await updateDoc(docRef, {
       [field]: values

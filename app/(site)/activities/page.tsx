@@ -13,6 +13,7 @@ import ActivityTable from '@components/Tables/ActivityTable/ActivityTable';
 export default function Activities() {
     const [user, loading, error] = useAuthState(auth);
     const [userDoc, setUserDoc] = useState<any>({})
+    const [loadingDoc, setLoadingDoc] = useState(true)
     const router = useRouter();
 
     useEffect(() => {
@@ -22,6 +23,7 @@ export default function Activities() {
             getDocument('users', user.uid)
                 .then(doc => {
                     setUserDoc(doc)
+                    setLoadingDoc(false)
                 })
                 .catch(err => {
                     console.error(err)
@@ -34,7 +36,7 @@ export default function Activities() {
             <Navbar activeLink='ACTIVITIES' user={user}/>
             <div className={styles['body-container']}>
                 <h1>Deine Aktivitäten</h1>
-                <ActivityTable activitiesParam={userDoc.activities} userID={user?.uid}/>
+                <ActivityTable activitiesParam={userDoc.activities} userID={user?.uid} isLoading={loadingDoc}/>
             </div>
         </div>
     )

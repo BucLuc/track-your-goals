@@ -47,10 +47,11 @@ export interface UnitMap {
 export interface Activity {
     name: string;
     unit?: string;
-    amount?: number;
+    plannedAmount?: number;
+    actualAmount?: number;
   }
 
-export interface ITemplate {
+export interface IWeek {
   [key: string]: Activity[];
 }
 

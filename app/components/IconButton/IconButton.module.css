@@ -1,0 +1,25 @@
+.icon-button {
+    cursor: pointer;
+    background-color: rgba(236, 236, 236, 0.682);
+    padding: 1rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition: transform 0.3s linear;
+}
+
+.icon-button:hover {
+    background-color: rgb(228, 228, 228);
+}
+
+.icon-button.resize:hover {
+    transform: scale(1.1);
+}
+
+.red {
+    background-color: #ff636385;
+}
+
+.red:hover {
+    background-color: #ff2f2f85;
+}

@@ -8,10 +8,11 @@ import {auth} from '@/app/services/firebaseService'
 import { useRouter } from 'next/navigation'
 import {getDocument} from '@services/firebaseService'
 import Navbar from '@components/Navbar/Navbar';
-import TemplateTable from '@components/Tables/TemplateTable/TemplateTable';
+import WeekTable from '@/app/components/Tables/WeekTable/WeekTable';
 
 export default function Template() {
     const [user, loading, error] = useAuthState(auth);
+    const [loadingDoc, setLoadingDoc] = useState(true)
     const [userDoc, setUserDoc] = useState<any>({})
     const router = useRouter();
 
@@ -22,6 +23,7 @@ export default function Template() {
             getDocument('users', user.uid)
                 .then(doc => {
                     setUserDoc(doc)
+                    setLoadingDoc(false)
                 })
                 .catch(err => {
                     console.error(err)
@@ -34,7 +36,7 @@ export default function Template() {
             <Navbar activeLink='TEMPLATE' user={user}/>
             <div className={styles['body-container']}>
                 <h1>Deine Wochenvorlage</h1>
-                <TemplateTable templateParam={userDoc.template} userID={user?.uid} activities={userDoc.activities}/>
+                <WeekTable weekParam={userDoc.template} userID={user?.uid} activities={userDoc.activities} dbFieldName='template' isLoading={loadingDoc} isPlanning/>
             </div>
         </div>
     )

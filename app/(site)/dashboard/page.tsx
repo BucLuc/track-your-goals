@@ -40,11 +40,11 @@ export default function Dashboard() {
                     <h2>Deine Wochen</h2>
                     <div className={styles.weeks}>
                         <div className={`${styles.week} ${styles['add-week']}`}>
-                            <a href={`weeks/${userDoc?.weeks ? userDoc.weeks.length + 1 : 1}`}><img src='/img/add-icon.png' alt='add-icon' /></a>
+                            <a href={`dashboard/${userDoc?.weeks ? userDoc.weeks.length + 1 : 1}`}><img src='/img/add-icon.png' alt='add-icon' /></a>
                         </div>
                         {userDoc.weeks && [...userDoc.weeks].reverse().map((week: any, index: any) => (
                             <div key={userDoc.weeks.indexOf(week)} className={`${styles.week} ${week.finished ? styles.finished : ''}`}>
-                                <a href={`weeks/${userDoc.weeks.indexOf(week) + 1}`}>{userDoc.weeks.indexOf(week) + 1}</a>
+                                <a href={`dashboard/${userDoc.weeks.indexOf(week) + 1}`}>{userDoc.weeks.indexOf(week) + 1}</a>
                             </div>
                         ))}
                     </div>

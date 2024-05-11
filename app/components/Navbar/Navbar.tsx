@@ -25,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeLink, user }) => {
             <ul>
                 <li className={activeLink === "HOME" ? styles.active : ""}><a href='/dashboard'>Home</a></li>
                 <li className={activeLink === "TEMPLATE" ? styles.active : ""}><a href='/template'>Wochenvorlage</a></li>
-                <li className={activeLink === "ACTIVITIES" ? styles.active : ""}><a href='activities'>Aktivitäten</a></li>
+                <li className={activeLink === "ACTIVITIES" ? styles.active : ""}><a href='/activities'>Aktivitäten</a></li>
             </ul>
             <div className={styles.user}
                 onMouseEnter={() => setIsHovering(true)}
