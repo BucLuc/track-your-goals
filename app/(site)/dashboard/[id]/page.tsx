@@ -75,16 +75,16 @@ export default function Week({ params, }: { params: { id: string } }) {
             <Navbar user={user} />
             <div className={styles['body-container']}>
                 <div className={styles.title}>
-                    {!loading && <IconButton href='/dashboard' icon='/img/close-icon.png' height={30}/>}
+                    {!loading && <IconButton toolTip='Zurück' href='/dashboard' icon='/img/close-icon.png' height={30}/>}
                     <h1>Woche {id + 1}</h1>
-                    {!loading && <IconButton onClick={() => setPlanning(!planning)} icon={`/img/${planning ? 'ok' : 'edit'}-icon.png`} height={30} /> }
+                    {!loading && <IconButton toolTip={planning ? 'Tracking Modus' : 'Bearbeiten'} onClick={() => setPlanning(!planning)} icon={`/img/${planning ? 'ok' : 'edit'}-icon.png`} height={30} /> }
                 </div>
                 {!userDoc ? <Loading /> :
                     <WeekTable weekParam={userDoc.weeks[id]} userID={user?.uid} activities={userDoc.activities} dbFieldName='weeks' onSave={onSave} isPlanning={planning} />
                 }
                 {!userDoc?.weeks[id]?.finished &&
                     <div className={styles['finish-button-section']}>
-                        <Button onClick={finishWeek}>Woche Abschliessen</Button>
+                        <Button onClick={finishWeek} big>Woche Abschliessen</Button>
                     </div>}
 
             </div>

@@ -1,7 +1,6 @@
 .icon-button {
     cursor: pointer;
     background-color: rgba(236, 236, 236, 0.682);
-    padding: 1rem;
     border-radius: 50%;
     display: grid;
     place-items: center;

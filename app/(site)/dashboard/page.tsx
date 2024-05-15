@@ -31,7 +31,7 @@ export default function Dashboard() {
 
     return (
         <div>
-            <Navbar activeLink='HOME' user={user} />
+            <Navbar activeLink='DASHBOARD' user={user} />
 
             <div className={styles['body-container']}>
                 {loading && <div>..Loading</div>}

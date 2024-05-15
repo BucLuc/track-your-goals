@@ -8,12 +8,13 @@ interface ButtonProps {
     danger?: boolean;
     href?: string;
     resize?: boolean;
-    padding?: string
+    padding?: string;
+    toolTip?: string;
 }
 
-const IconButton: React.FC<ButtonProps> = ({ onClick, icon, height, width, danger, href, resize, padding }) => {
+const IconButton: React.FC<ButtonProps> = ({ onClick, icon, height, width, danger, href, resize, padding, toolTip }) => {
     return (
-        <a href={href} style={{ padding: padding || '12px' }} onClick={onClick} className={`${styles["icon-button"]} ${danger ? styles['red'] : ''} ${resize ? styles['resize'] : ''}`}>
+        <a href={href} title={toolTip} style={{ padding: padding || '12px' }} onClick={onClick} className={`${styles["icon-button"]} ${danger ? styles['red'] : ''} ${resize ? styles['resize'] : ''}`}>
             <img alt='button-icon' src={icon} height={height} width={width} />
         </a>
     )

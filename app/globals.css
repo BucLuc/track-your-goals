@@ -9,6 +9,10 @@
   --red: #e74d3c;
   --button-primary: #1a6cb7;
 }
+html {
+  scroll-behavior: smooth;
+}
+
 
 body {
   margin: 0;

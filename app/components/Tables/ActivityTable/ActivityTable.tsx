@@ -22,14 +22,14 @@ const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID, isLoadin
     }, [activitiesParam]);
 
     const handleInputSubmit = (index: number, newValue: string) => {
-        if (!activities.find(activity => activity.name === newValue) || newValue === "") {
+        if (!activities.find(activity => activity.name === newValue && activities.indexOf(activity) !== index) || newValue === "") {
             const newActivities = handleChange(index, 'name', newValue);
             saveToDB(newActivities)
         } else alert(`Die Aktivität ${newValue} existiert bereits`)
     }
 
     const handleDropdownChange = (index: number, newValue: string) => {
-        if (!activities.find(activity => activity.name === activities[index].name)){
+        if (!activities.find(activity => activity.name === activities[index].name && activities.indexOf(activity) !== index)){
             const newActivities = handleChange(index, 'unit', newValue);
             saveToDB(newActivities)
         } else alert(`Die Aktivität ${activities[index].name} existiert bereits`)

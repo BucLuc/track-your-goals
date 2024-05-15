@@ -36,7 +36,7 @@ export default function Activities() {
             <Navbar activeLink='ACTIVITIES' user={user}/>
             <div className={styles['body-container']}>
                 <h1>Deine Aktivitäten</h1>
-                <ActivityTable activitiesParam={userDoc.activities} userID={user?.uid} isLoading={loadingDoc}/>
+                <ActivityTable activitiesParam={userDoc?.activities} userID={user?.uid} isLoading={loadingDoc}/>
             </div>
         </div>
     )

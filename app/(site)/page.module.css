@@ -1,3 +1,136 @@
-.title {
-    background-color: var(--primary);
+.container {
+    position: relative;
+}
+
+.hero-section {
+    height: 100dvh;
+
+    margin-inline: auto;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    background-image: url('/img/hero-img.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    color: white;
+    
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    width: 60%;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section p {
+    width: 75%;
+    font-size: 1.2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 35px;
+}
+
+.link-section {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+}
+
+.link-section a {
+    padding: 10px 15px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: white;
+    border: 1px solid white;
+    transition: transform 0.3s ease-in-out;
+}
+
+.link-section a:hover {
+    transform: scale(1.1);
+}
+
+.link-section .main-link {
+    background-color: black;
+    border: none;
+}
+
+
+.info {
+    width: 80%;
+    margin-inline: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+    margin-top: 150px;
+    position: relative;
+}
+
+.info .content {
+    width: 40vw;
+}
+
+.info .content h2 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.info .content p {
+    font-size: 1.2rem;
+}
+
+.info .img-section img {
+    width: 100%;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+}
+
+.info .arrow img {
+    position: absolute;
+    right: 42%;
+    bottom: -45%;
+    width: 10vw;
+}
+
+.info .left-arrow img {
+    transform: scaleX(-1);
+    position: absolute;
+    left: 40%;
+    bottom: -45%;
+    width: 10vw;
+}
+
+.end-part {
+    width: 80%;
+    margin: 150px auto 150px auto;
+    padding: 15px 20px;
+
+    color: white;
+
+    background-image: url('/img/end-part.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+.end-part .link-section {
+    justify-content: start;
+}
+
+.end-part h2 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.end-part p {
+    font-size: 1.1rem;
 }

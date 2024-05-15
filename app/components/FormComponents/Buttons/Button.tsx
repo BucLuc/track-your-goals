@@ -9,6 +9,7 @@ interface ButtonProps {
     secondary?: boolean;
     danger?: boolean;
     disabled?: boolean;
+    big?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,10 +19,11 @@ const Button: React.FC<ButtonProps> = ({
     onClick,
     secondary,
     danger,
-    disabled
+    disabled,
+    big
 }) => {
     return (
-        <button onClick={onClick} type={type} disabled={disabled} className={secondary ? styles.secondary : styles.primary}style={{ width: fullwidth ? '100%' : 'auto' }}>
+        <button onClick={onClick} type={type} disabled={disabled} className={secondary ? styles.secondary : styles.primary} style={{ width: fullwidth ? '100%' : 'auto', fontSize: big ? '1.8rem' : '1.2rem'}}>
             {children}
         </button>
     )
