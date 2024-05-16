@@ -69,13 +69,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10%;
+    gap: 5%;
     margin-top: 150px;
     position: relative;
 }
 
 .info .content {
-    width: 40vw;
+    width: 35vw;
 }
 
 .info .content h2 {
@@ -87,10 +87,23 @@
     font-size: 1.2rem;
 }
 
+.info .img-section {
+    width: 35vw;
+}
+
 .info .img-section img {
     width: 100%;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
     border-radius: 12px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.info .img-section img:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.info .img-section .left-image:hover {
+    transform: scale(1.1) rotate(-5deg);
 }
 
 .info .arrow img {
@@ -98,6 +111,7 @@
     right: 42%;
     bottom: -45%;
     width: 10vw;
+    z-index: 100;
 }
 
 .info .left-arrow img {
@@ -106,6 +120,7 @@
     left: 40%;
     bottom: -45%;
     width: 10vw;
+    z-index: 100;
 }
 
 .end-part {

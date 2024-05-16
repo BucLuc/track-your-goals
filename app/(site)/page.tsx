@@ -36,7 +36,7 @@ export default function Home() {
         </div>
         <div className={styles.info}>
             <div className={styles['img-section']}>
-                <img alt="activities" src="/img/template.gif" />
+                <img alt="activities" src="/img/template.gif" className={styles['left-image']}/>
             </div>
             <div className={styles.content}>
               <h2>Vorlagen für tägliche Routine</h2>
