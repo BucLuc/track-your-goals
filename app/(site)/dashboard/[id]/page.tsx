@@ -17,6 +17,7 @@ import IconButton from '@components/IconButton/IconButton';
 export default function Week({ params, }: { params: { id: string } }) {
     const [user, loading, error] = useAuthState(auth);
     const [userDoc, setUserDoc] = useState<any>()
+    const [totalActivities, setTotalActivities] = useState()
     const [planning, setPlanning] = useState(true)
     const [id, setID] = useState(0)
     const router = useRouter();
@@ -47,6 +48,24 @@ export default function Week({ params, }: { params: { id: string } }) {
                         updateField(`users/${user.uid}`, 'weeks', updatedWeeks)
                     } else setPlanning(false)
                     setUserDoc(doc)
+
+                    const combinedDictionary: any = {};
+
+                    for (const day in doc.weeks[id]) {
+                        if (doc.weeks[id].hasOwnProperty(day)) {
+                            doc.weeks[id][day].forEach((activity: { name: string | number; actualAmount: any; plannedAmount: any; }) => {
+                                if (!combinedDictionary[activity.name]) {
+                                    combinedDictionary[activity.name] = {
+                                        actualAmount: 0,
+                                        plannedAmount: 0
+                                    };
+                                }
+                                combinedDictionary[activity.name].actualAmount += Number(activity.actualAmount);
+                                combinedDictionary[activity.name].plannedAmount += Number(activity.plannedAmount);
+                            });
+                        }
+                    }
+                    setTotalActivities(combinedDictionary)
                 })
                 .catch(err => {
                     console.error(err)
@@ -75,17 +94,22 @@ export default function Week({ params, }: { params: { id: string } }) {
             <Navbar user={user} />
             <div className={styles['body-container']}>
                 <div className={styles.title}>
-                    {!loading && <IconButton toolTip='Zurück' href='/dashboard' icon='/img/close-icon.png' height={30}/>}
+                    {!loading && <IconButton toolTip='Zurück' href='/dashboard' icon='/img/close-icon.png' height={30} />}
                     <h1>Woche {id + 1}</h1>
-                    {!loading && <IconButton toolTip={planning ? 'Tracking Modus' : 'Bearbeiten'} onClick={() => setPlanning(!planning)} icon={`/img/${planning ? 'ok' : 'edit'}-icon.png`} height={30} /> }
+                    {!loading && <IconButton toolTip={planning ? 'Tracking Modus' : 'Bearbeiten'} onClick={() => setPlanning(!planning)} icon={`/img/${planning ? 'ok' : 'edit'}-icon.png`} height={30} />}
                 </div>
+                <h2>Tages-Ansicht</h2>
                 {!userDoc ? <Loading /> :
                     <WeekTable weekParam={userDoc.weeks[id]} userID={user?.uid} activities={userDoc.activities} dbFieldName='weeks' onSave={onSave} isPlanning={planning} />
                 }
+                <h2>Total</h2>
+                {totalActivities &&
+                    <div></div>
+                }
                 {!userDoc?.weeks[id]?.finished &&
                     <div className={styles['finish-button-section']}>
-                        <Button onClick={finishWeek} big>Woche Abschliessen</Button>
-                    </div>}
+
+                </div>}
 
             </div>
         </div>

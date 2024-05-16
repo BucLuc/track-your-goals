@@ -7,12 +7,12 @@
 }
 
 .nav ul {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     list-style: none;
     display: flex;
     gap: 35px;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .nav ul a {
@@ -41,10 +41,10 @@
     width: 70%;
     height: 100%;
     margin: 0 auto 0 auto;
-    padding: 15px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 15px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
     border-bottom: 1px solid black;
 }
 
@@ -56,7 +56,7 @@
 }
 
 .nav .nav-content .logo img {
-    max-height: 50px;
+    max-height: 35px;
 }
 
 .nav .nav-content .user {
@@ -67,7 +67,11 @@
 .nav .nav-content .user .img-container {
     overflow: hidden;
     border-radius: 50%;
-    max-height: 50px;
+    height: 45px;
+}
+
+.nav .nav-content .user img {
+    height: 100%;
 }
 
 .nav .nav-content .user .menu {

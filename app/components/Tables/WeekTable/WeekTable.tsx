@@ -13,10 +13,11 @@ interface TableProps {
     isLoading?: boolean;
     onSave?: (activities: Activity[], day: string) => void;
     isPlanning?: boolean;
+    showTotal?: boolean;
 }
 
 
-const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFieldName, isLoading, onSave, isPlanning }) => {
+const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFieldName, isLoading, onSave, isPlanning, showTotal }) => {
     const [week, setWeek] = useState<IWeek>();
     const [currentDay, setCurrentDay] = useState(weekDays[0])
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -106,6 +107,10 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
                         {day.slice(0, 2)}
                     </div>
                 ))}
+                {showTotal &&
+                    <div className={`${styles.day} ${'Total' === currentDay ? styles['current-day'] : ''}`} onClick={() => setCurrentDay('Total')}>
+                        To
+                    </div>}
             </div>
             <div className={styles.table}>
                 <div className={styles['table-header']}>
@@ -125,16 +130,16 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
                                 </select>
                                 <div className={styles['input-container']}>
                                     <input type="number" placeholder='0' ref={el => inputRefs.current[index] = el} value={isPlanning ? activity.plannedAmount : activity.actualAmount} className={`${styles['input']} ${!isPlanning ? activity.actualAmount && activity.plannedAmount && activity.actualAmount >= activity.plannedAmount ? styles.good : styles.bad : ''}`} onChange={(e) => handleChange(index, isPlanning ? 'plannedAmount' : 'actualAmount', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
-                                    <p onClick={() => inputRefs.current[index]?.focus()}>{!isPlanning ? '/' + activity.plannedAmount : '' }{activity.unit ? units[activity.unit].abbreviation : ""}</p>
+                                    <p onClick={() => inputRefs.current[index]?.focus()}>{!isPlanning ? '/' + activity.plannedAmount : ''}{activity.unit ? units[activity.unit].abbreviation : ""}</p>
                                 </div>
-                                <span className={styles['delete-button']}><IconButton onClick={() => handleDelete(index)} icon='/img/eraser-icon.png' height={20} padding='5px' danger/></span>
+                                <span className={styles['delete-button']}><IconButton onClick={() => handleDelete(index)} icon='/img/eraser-icon.png' height={20} padding='5px' danger /></span>
                             </div>
                         ))}
                         {isPlanning &&
-                        <div className={`${styles['table-row']} ${styles['add-element']}`} onClick={() => handleAdd()}>
-                            <p>Aktivität hinzufügen</p>
-                            <p>{units[""].displayName}</p>
-                        </div>
+                            <div className={`${styles['table-row']} ${styles['add-element']}`} onClick={() => handleAdd()}>
+                                <p>Aktivität hinzufügen</p>
+                                <p>{units[""].displayName}</p>
+                            </div>
                         }
                     </div>}
                 </div>

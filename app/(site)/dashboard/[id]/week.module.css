@@ -1,5 +1,5 @@
 .body-container {
-    width: 70%;
+    width: 90%;
     margin-inline: auto;
     margin-top: 100px;
 }
@@ -7,6 +7,11 @@
 .body-container h1 {
     text-align: center;
     font-size: 2.6em;
+}
+
+.body-container h2 {
+    text-align: center;
+    font-size: 2rem;
 }
 
 .body-container .title {

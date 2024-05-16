@@ -6,7 +6,7 @@
 }
 
 .table .table-header {
-    padding: 0 10px;
+    padding: 0;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid var(--gray-1);
