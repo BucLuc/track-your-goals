@@ -17,7 +17,8 @@ import IconButton from '@components/IconButton/IconButton';
 export default function Week({ params, }: { params: { id: string } }) {
     const [user, loading, error] = useAuthState(auth);
     const [userDoc, setUserDoc] = useState<any>()
-    const [totalActivities, setTotalActivities] = useState()
+    const [showTotal, setShowTotal] = useState(false)
+    const [totalActivities, setTotalActivities] = useState<any>([])
     const [planning, setPlanning] = useState(true)
     const [id, setID] = useState(0)
     const router = useRouter();
@@ -48,24 +49,7 @@ export default function Week({ params, }: { params: { id: string } }) {
                         updateField(`users/${user.uid}`, 'weeks', updatedWeeks)
                     } else setPlanning(false)
                     setUserDoc(doc)
-
-                    const combinedDictionary: any = {};
-
-                    for (const day in doc.weeks[id]) {
-                        if (doc.weeks[id].hasOwnProperty(day)) {
-                            doc.weeks[id][day].forEach((activity: { name: string | number; actualAmount: any; plannedAmount: any; }) => {
-                                if (!combinedDictionary[activity.name]) {
-                                    combinedDictionary[activity.name] = {
-                                        actualAmount: 0,
-                                        plannedAmount: 0
-                                    };
-                                }
-                                combinedDictionary[activity.name].actualAmount += Number(activity.actualAmount);
-                                combinedDictionary[activity.name].plannedAmount += Number(activity.plannedAmount);
-                            });
-                        }
-                    }
-                    setTotalActivities(combinedDictionary)
+                    onTotalChange(doc)
                 })
                 .catch(err => {
                     console.error(err)
@@ -73,11 +57,36 @@ export default function Week({ params, }: { params: { id: string } }) {
         }
     }, [user, loading, router]);
 
+    const onTotalChange = (doc: any) => {
+        const combinedDictionary: any = {};
+
+        for (const day in doc.weeks[id]) {
+            if (doc.weeks[id].hasOwnProperty(day)) {
+                doc.weeks[id][day].forEach((activity: any) => {
+                    if (!combinedDictionary[activity.name]) {
+                        combinedDictionary[activity.name] = {
+                            actualAmount: 0,
+                            plannedAmount: 0,
+                            unit: activity.unit
+                        };
+                    }
+                    combinedDictionary[activity.name].actualAmount += Number(activity.actualAmount);
+                    combinedDictionary[activity.name].plannedAmount += Number(activity.plannedAmount);
+                });
+            }
+        }
+        setTotalActivities(combinedDictionary)
+    }
+
     const onSave = (data: Activity[], day: string) => {
         const updatedWeeks = [...userDoc.weeks];
         updatedWeeks[id][day] = data;
 
         updateField(`users/${user?.uid}`, 'weeks', updatedWeeks)
+
+        const updDoc = userDoc
+        updDoc.weeks = updatedWeeks
+        onTotalChange(updDoc)
     }
 
     const finishWeek = () => {
@@ -100,16 +109,30 @@ export default function Week({ params, }: { params: { id: string } }) {
                 </div>
                 <h2>Tages-Ansicht</h2>
                 {!userDoc ? <Loading /> :
-                    <WeekTable weekParam={userDoc.weeks[id]} userID={user?.uid} activities={userDoc.activities} dbFieldName='weeks' onSave={onSave} isPlanning={planning} />
-                }
-                <h2>Total</h2>
-                {totalActivities &&
-                    <div></div>
-                }
-                {!userDoc?.weeks[id]?.finished &&
-                    <div className={styles['finish-button-section']}>
+                    <div>
+                        <WeekTable weekParam={userDoc.weeks[id]} userID={user?.uid} activities={userDoc.activities} dbFieldName='weeks' onSave={onSave} isPlanning={planning} />
+                        <h2 className={styles.h2}>
+                            Total <img height={25} src={showTotal ? '/img/expander-down.png' : '/img/expander-right.png'} onClick={() => setShowTotal(!showTotal)} />
+                        </h2>
 
-                </div>}
+                        {totalActivities && showTotal &&
+                            <div>
+                                <div className={styles['total-activities']}>
+                                    {Object.keys(totalActivities).map((name: any) => (
+                                        <p key={name}>
+                                            {name}: <span className={Number(totalActivities[name].actualAmount) >= Number(totalActivities[name].plannedAmount) ? styles.good : styles.bad}>{totalActivities[name].actualAmount}</span>/{totalActivities[name].plannedAmount}{totalActivities[name].unit}
+                                        </p>
+                                    ))}
+                                </div>
+                                {!userDoc?.weeks[id]?.finished &&
+                                    <div className={styles['finish-button']}>
+                                        <Button onClick={() => finishWeek()} big>Woche abschliessen</Button>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
 
             </div>
         </div>

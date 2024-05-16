@@ -21,11 +21,37 @@
     gap: 100px;
 }
 
-.finish-button-section {
-    position: fixed;
-    bottom: 20px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    z-index: 1000; 
-    font-size: 2.5rem;
+.h2 {
+    margin-inline: auto;
+    padding-bottom: 10px;
+    width: 45%;
+    border-bottom: 1px dotted var(--gray-1);
+}
+
+.h2 img {
+    cursor: pointer;
+}
+
+.total-activities {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    width: 50%;
+    margin-inline: auto;
+    place-items: center;
+
+    font-size: 1.2rem;
+}
+
+.finish-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.bad {
+    color: var(--red)
+}
+
+.good {
+    color: var(--green)
 }

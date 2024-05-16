@@ -129,7 +129,7 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
                                     ))}
                                 </select>
                                 <div className={styles['input-container']}>
-                                    <input type="number" placeholder='0' ref={el => inputRefs.current[index] = el} value={isPlanning ? activity.plannedAmount : activity.actualAmount} className={`${styles['input']} ${!isPlanning ? activity.actualAmount && activity.plannedAmount && activity.actualAmount >= activity.plannedAmount ? styles.good : styles.bad : ''}`} onChange={(e) => handleChange(index, isPlanning ? 'plannedAmount' : 'actualAmount', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
+                                    <input type="number" placeholder='0' ref={el => inputRefs.current[index] = el} value={isPlanning ? activity.plannedAmount : activity.actualAmount} className={`${styles['input']} ${!isPlanning ? activity.actualAmount && activity.plannedAmount && Number(activity.actualAmount) >= Number(activity.plannedAmount) ? styles.good : styles.bad : ''}`} onChange={(e) => handleChange(index, isPlanning ? 'plannedAmount' : 'actualAmount', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
                                     <p onClick={() => inputRefs.current[index]?.focus()}>{!isPlanning ? '/' + activity.plannedAmount : ''}{activity.unit ? units[activity.unit].abbreviation : ""}</p>
                                 </div>
                                 <span className={styles['delete-button']}><IconButton onClick={() => handleDelete(index)} icon='/img/eraser-icon.png' height={20} padding='5px' danger /></span>
