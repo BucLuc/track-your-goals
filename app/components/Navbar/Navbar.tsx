@@ -7,10 +7,13 @@ import { signOut, User } from 'firebase/auth';
 interface NavbarProps {
     activeLink?: "DASHBOARD" | "TEMPLATE" | "ACTIVITIES" | undefined ;
     user?: User | null ;
+    photoURL?: string ;
 }
  
-const Navbar: React.FC<NavbarProps> = ({ activeLink, user }) => {
+const Navbar: React.FC<NavbarProps> = ({ activeLink, user, photoURL }) => {
     const [isHovering, setIsHovering] = useState(false);
+
+    const actualURL = photoURL ? photoURL : user && user.photoURL ? user.photoURL : "/img/Avatars/default-avatar.png";
 
     return (
     <nav className={styles.nav}>
@@ -30,11 +33,12 @@ const Navbar: React.FC<NavbarProps> = ({ activeLink, user }) => {
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}>
                     <div className={styles['img-container']}>
-                        <img alt="userIcon" src={user && user.photoURL ? user?.photoURL : "/img/user-icon.png"}/>
+                        <img alt="userIcon" src={actualURL}/>
                     </div>   
                 {isHovering && (
                     <div className={styles.menu}>
-                        {user && <a href="#" onClick={() => signOut(auth)}>Abmelden</a>}
+                        {user && <a href='/profile'>Profil</a>}
+                        {user && <a href="#" onClick={() => signOut(auth)} className={styles['sign-out']}>Abmelden</a>}
                         {!user && <a href="/login">Anmelden</a>}
                     </div>
                 )}

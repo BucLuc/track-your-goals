@@ -1,18 +1,26 @@
+.button {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease-in-out;
+  transition: transform 0.25s linear;
+}
+
+.button:hover {
+  transform: scale(1.05)
+}
+
 .primary {
-    padding: 10px 20px;
-    background-color: var(--blue-button);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease-in-out;
-    transition: transform 0.25s linear;
-  }
-  
-  .primary:hover {
-    transform: scale(1.05)
-  }
+  background-color: var(--blue-button);
+}
+
+
+.green {
+  background-color: var(--green);
+}

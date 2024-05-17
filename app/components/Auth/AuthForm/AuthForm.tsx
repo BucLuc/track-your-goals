@@ -11,6 +11,7 @@ import AuthSocialButton from '@components/FormComponents/SocialButtons/AuthSocia
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation'
 import { auth, getDocument, setDocument, checkForUserDetailOrCreate } from '@services/firebaseService'
+import { sendEmailVerification } from 'firebase/auth';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -67,8 +68,9 @@ export default function AuthForm() {
                 res = await createUserWithEmailAndPassword(formData.email, formData.password)
                 if (formData.name) {
                     const newRes = await updateProfile({displayName: formData.name})
-                    console.log(newRes)
                 }
+            if (res) sendEmailVerification(res.user)
+                
             } else {
                 res = await signInUserWithEmailAndPassword(formData.email, formData.password)
             }

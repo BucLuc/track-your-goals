@@ -7,7 +7,7 @@ interface ButtonProps {
     children?: React.ReactNode;
     onClick?: () => void;
     secondary?: boolean;
-    danger?: boolean;
+    green?: boolean;
     disabled?: boolean;
     big?: boolean;
 }
@@ -18,12 +18,12 @@ const Button: React.FC<ButtonProps> = ({
     children,
     onClick,
     secondary,
-    danger,
+    green,
     disabled,
     big
 }) => {
     return (
-        <button onClick={onClick} type={type} disabled={disabled} className={secondary ? styles.secondary : styles.primary} style={{ width: fullwidth ? '100%' : 'auto', fontSize: big ? '1.8rem' : '1.2rem'}}>
+        <button onClick={onClick} type={type} disabled={disabled} className={`${styles.button} ${green ? styles.green : secondary ? styles.secondary : styles.primary}`} style={{ width: fullwidth ? '100%' : 'auto', fontSize: big ? '1.8rem' : '1.2rem'}}>
             {children}
         </button>
     )

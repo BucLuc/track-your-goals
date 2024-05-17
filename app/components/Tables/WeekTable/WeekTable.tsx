@@ -118,7 +118,7 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
                     <p>Menge</p>
                 </div>
                 <div className={styles['table-body']}>
-                    {isLoading ? <Loading /> : <div>
+                    {isLoading ? <Loading centered/> : <div>
                         {week && week[currentDay] && week[currentDay].map((activity: Activity, index: number) => (
                             <div key={index} className={styles['table-row']}>
                                 <select value={activity.name} className={styles['dropdown']} onChange={(e) => handleDropDown(index, e.target.value, activity.plannedAmount, activity.actualAmount)}>

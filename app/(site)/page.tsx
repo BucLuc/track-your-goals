@@ -2,19 +2,36 @@
 
 import styles from "./page.module.css";
 import {useAuthState} from 'react-firebase-hooks/auth'
-import {auth} from '@/app/services/firebaseService'
+import {auth, getDocument} from '@services/firebaseService'
 import Navbar from "@components/Navbar/Navbar";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [user, loading, error] = useAuthState(auth);
+  const [photoURL, setPhotoURL] = useState('')
+
+  useEffect(() => {
+    if (!loading && user) {
+        getDocument('users', user.uid)
+            .then(doc => {
+              if (doc){
+                setPhotoURL(doc?.photoURL)
+              } 
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
+}, [user, loading]);
+
 
   return (
     <div className={styles.container}>
-      <Navbar user={user}/>
+      <Navbar user={user} photoURL={photoURL}/>
       <div className={styles['hero-section']}>
         <div className={styles['hero-content']}>
             <h1>Erreiche deine Ziele mit Track Your Goals</h1>
-            <p>Kostenlos, einfach, effektiv – Dein persönlicher Wegbegleiter für tägliche Ziele und wöchentliche Erfolge.</p>
+            <p>Kostenlos, einfach, effektiv - Dein persönlicher Wegbegleiter für tägliche Ziele und wöchentliche Erfolge.</p>
             <div className={styles['link-section']}>
               <a href="/login" className={styles['main-link']}>Anmelden</a>
               <a href="#infos">Mehr erfahren</a>

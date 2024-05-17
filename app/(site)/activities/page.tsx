@@ -33,7 +33,7 @@ export default function Activities() {
 
     return(
         <div>
-            <Navbar activeLink='ACTIVITIES' user={user}/>
+            <Navbar activeLink='ACTIVITIES' user={user} photoURL={userDoc?.photoURL}/>
             <div className={styles['body-container']}>
                 <h1>Deine Aktivitäten</h1>
                 <ActivityTable activitiesParam={userDoc?.activities} userID={user?.uid} isLoading={loadingDoc}/>

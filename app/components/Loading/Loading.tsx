@@ -1,7 +1,14 @@
 import styles from './Loading.module.css'
 
-export default function Loading()  {
+interface Props {
+    size?: string;
+    centered?: boolean;
+}
+
+const Loading: React.FC<Props> = ({size, centered}) =>  {
     return (
-        <p>Loading..</p>
+        <div className={`${styles["lds-ring"]} ${centered ? styles.centered : ''}`} style={{width: size ? size : '64px', height: size ? size : '64px'}}><div></div><div></div><div></div><div></div></div>
     )
 }
+
+export default Loading;

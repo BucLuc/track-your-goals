@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { getUserName } from '@services/helperService'
 import { getDocument } from '@services/firebaseService'
 import Navbar from '@components/Navbar/Navbar';
+import Loading from '@components/Loading/Loading';
 
 export default function Dashboard() {
     const [user, loading, error] = useAuthState(auth);
@@ -31,10 +32,10 @@ export default function Dashboard() {
 
     return (
         <div>
-            <Navbar activeLink='DASHBOARD' user={user} />
+            <Navbar activeLink='DASHBOARD' user={user} photoURL={userDoc?.photoURL}/>
 
             <div className={styles['body-container']}>
-                {loading && <div>..Loading</div>}
+                {loading && <Loading centered size='128px'/>}
                 {!loading && user && <div>
                     <h1>Wilkommen zurück, {getUserName(user)}</h1>
                     <h2>Deine Wochen</h2>
@@ -42,7 +43,7 @@ export default function Dashboard() {
                         <div className={`${styles.week} ${styles['add-week']}`}>
                             <a href={`dashboard/${userDoc?.weeks ? userDoc.weeks.length + 1 : 1}`}><img src='/img/add-icon.png' alt='add-icon' /></a>
                         </div>
-                        {userDoc.weeks && [...userDoc.weeks].reverse().map((week: any, index: any) => (
+                        {userDoc?.weeks && [...userDoc.weeks].reverse().map((week: any, index: any) => (
                             <div key={userDoc.weeks.indexOf(week)} className={`${styles.week} ${week.finished ? styles.finished : ''}`}>
                                 <a href={`dashboard/${userDoc.weeks.indexOf(week) + 1}`}>{userDoc.weeks.indexOf(week) + 1}</a>
                             </div>

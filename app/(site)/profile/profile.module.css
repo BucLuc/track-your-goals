@@ -1,0 +1,91 @@
+.body-container {
+    width: 70%;
+    margin-inline: auto;
+    margin-top: 100px;
+}
+
+.body-container h1 {
+    text-align: center;
+    font-size: 2.6em;
+}
+
+.body-container h2 {
+    text-align: center;
+    font-size: 1.8em;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.avatars {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+.avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.avatar:hover {
+    transform: scale(1.1);
+}
+
+.avatar img {
+    width: 100%;
+}
+.avatars .current {
+    transform: scale(1.15);
+    border: 3px dashed var(--blue-text);
+}
+
+.infos-container {
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto; 
+    width: 50%;
+}
+
+.infos-container .name-email {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+
+.button-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.email-verified {
+    display: flex;
+    justify-content: center;
+}
+
+.email-verified h3 {
+    padding:  12px;
+    border-radius: 15px;
+}
+
+.email-verified .bad {
+    background-color: #ff636385;
+}
+
+.email-verified .good {
+    background-color: #6efb8385;
+}
+
+.email-verified .send {
+    text-decoration: underline;
+    color: var(--dark-blue);
+    cursor: pointer;
+}

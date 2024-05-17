@@ -61,18 +61,20 @@ export default function Week({ params, }: { params: { id: string } }) {
         const combinedDictionary: any = {};
 
         for (const day in doc.weeks[id]) {
-            if (doc.weeks[id].hasOwnProperty(day)) {
-                doc.weeks[id][day].forEach((activity: any) => {
-                    if (!combinedDictionary[activity.name]) {
-                        combinedDictionary[activity.name] = {
-                            actualAmount: 0,
-                            plannedAmount: 0,
-                            unit: activity.unit
-                        };
-                    }
-                    combinedDictionary[activity.name].actualAmount += Number(activity.actualAmount);
-                    combinedDictionary[activity.name].plannedAmount += Number(activity.plannedAmount);
-                });
+            if (day !== 'finished'){
+                if (doc.weeks[id].hasOwnProperty(day)) {
+                    doc.weeks[id][day].forEach((activity: any) => {
+                        if (!combinedDictionary[activity.name]) {
+                            combinedDictionary[activity.name] = {
+                                actualAmount: 0,
+                                plannedAmount: 0,
+                                unit: activity.unit
+                            };
+                        }
+                        combinedDictionary[activity.name].actualAmount += activity.actualAmount ? Number( activity.actualAmount) : 0;
+                        combinedDictionary[activity.name].plannedAmount += activity.plannedAmount ? Number(activity.plannedAmount) : 0;
+                    });
+                }
             }
         }
         setTotalActivities(combinedDictionary)
@@ -100,16 +102,16 @@ export default function Week({ params, }: { params: { id: string } }) {
 
     return (
         <div>
-            <Navbar user={user} />
+            <Navbar user={user} photoURL={userDoc?.photoURL}/>
             <div className={styles['body-container']}>
                 <div className={styles.title}>
                     {!loading && <IconButton toolTip='Zurück' href='/dashboard' icon='/img/close-icon.png' height={30} />}
                     <h1>Woche {id + 1}</h1>
                     {!loading && <IconButton toolTip={planning ? 'Tracking Modus' : 'Bearbeiten'} onClick={() => setPlanning(!planning)} icon={`/img/${planning ? 'ok' : 'edit'}-icon.png`} height={30} />}
                 </div>
-                <h2>Tages-Ansicht</h2>
-                {!userDoc ? <Loading /> :
+                {!userDoc ? <Loading centered size='100px' /> :
                     <div>
+                        <h2>Tages-Ansicht</h2>
                         <WeekTable weekParam={userDoc.weeks[id]} userID={user?.uid} activities={userDoc.activities} dbFieldName='weeks' onSave={onSave} isPlanning={planning} />
                         <h2 className={styles.h2}>
                             Total <img height={25} src={showTotal ? '/img/expander-down.png' : '/img/expander-right.png'} onClick={() => setShowTotal(!showTotal)} />
