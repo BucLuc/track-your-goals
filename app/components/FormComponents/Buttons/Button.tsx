@@ -1,5 +1,6 @@
 'use client'
 import styles from './Button.module.css'
+import Loading from '@components/Loading/Loading';
 
 interface ButtonProps {
     type?: 'button' | 'submit' | 'reset' | undefined;

@@ -5,9 +5,9 @@ import Image from "next/image"
 export default function Login() {
   return (
     <div className={styles["page-container"]}>
-      <Image height="96" width="96" src="/img/logo-icon.png" alt="logo-icon" />
-      <h2>Sign in to your Account</h2>
-      <AuthForm />
+      <div className={styles['form-container']}>
+        <AuthForm />
+      </div>
     </div>
   );
 }

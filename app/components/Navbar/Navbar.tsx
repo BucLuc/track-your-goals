@@ -33,7 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeLink, user, photoURL }) => {
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}>
                     <div className={styles['img-container']}>
-                        <img alt="userIcon" src={actualURL}/>
+                        <a href='/profile'><img alt="userIcon" src={actualURL}/></a>
                     </div>   
                 {isHovering && (
                     <div className={styles.menu}>

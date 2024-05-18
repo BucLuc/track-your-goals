@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation'
 import { auth, getDocument, setDocument, checkForUserDetailOrCreate } from '@services/firebaseService'
 import { sendEmailVerification } from 'firebase/auth';
+import VerifyEmail from '@components/VerifyEmail/VerifyEmail';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -21,7 +22,9 @@ export default function AuthForm() {
 
     useEffect(() => {
         if (!loading && user) {
-            router.push('/dashboard');
+            if (user.emailVerified) {
+                router.push('/dashboard');
+            }
         }
     }, [user, loading, router]);
 
@@ -94,6 +97,7 @@ export default function AuthForm() {
     return (
         <div className={styles['form-container']}>
             <div className={styles['form-content']}>
+                {!user &&
                 <form onSubmit={onSubmit}>
                     <div className={styles['input-fields']}>
                         {variant === 'REGISTER' && <Input id='name' label='Name' value={formData.name} onChange={(e: void) => handleInputChange(e)} />}
@@ -117,6 +121,8 @@ export default function AuthForm() {
                         </div>
                     </div>
                 </form>
+                }
+                {user && !user.emailVerified && <VerifyEmail email={user.email  ?? ''} />}
             </div>
         </div>
     )

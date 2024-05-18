@@ -5,6 +5,7 @@ import styles from './week.module.css'
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, updateField, getDocument } from '@services/firebaseService'
+import {GetActivitySummary} from '@services/helperService'
 import { useRouter } from 'next/navigation'
 import Navbar from '@components/Navbar/Navbar';
 import WeekTable from '@components/Tables/WeekTable/WeekTable';
@@ -58,26 +59,7 @@ export default function Week({ params, }: { params: { id: string } }) {
     }, [user, loading, router]);
 
     const onTotalChange = (doc: any) => {
-        const combinedDictionary: any = {};
-
-        for (const day in doc.weeks[id]) {
-            if (day !== 'finished'){
-                if (doc.weeks[id].hasOwnProperty(day)) {
-                    doc.weeks[id][day].forEach((activity: any) => {
-                        if (!combinedDictionary[activity.name]) {
-                            combinedDictionary[activity.name] = {
-                                actualAmount: 0,
-                                plannedAmount: 0,
-                                unit: activity.unit
-                            };
-                        }
-                        combinedDictionary[activity.name].actualAmount += activity.actualAmount ? Number( activity.actualAmount) : 0;
-                        combinedDictionary[activity.name].plannedAmount += activity.plannedAmount ? Number(activity.plannedAmount) : 0;
-                    });
-                }
-            }
-        }
-        setTotalActivities(combinedDictionary)
+        setTotalActivities(GetActivitySummary(doc.weeks[id]))
     }
 
     const onSave = (data: Activity[], day: string) => {

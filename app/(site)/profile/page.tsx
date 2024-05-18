@@ -3,11 +3,11 @@
 import styles from './profile.module.css'
 
 import { useEffect, useState } from 'react';
-import { useAuthState, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/app/services/firebaseService'
 import { useRouter } from 'next/navigation'
 import { getDocument, updateField } from '@services/firebaseService'
-import { updateEmail, updateProfile, updatePassword, sendEmailVerification } from 'firebase/auth';
+import { updateEmail, updateProfile, updatePassword, sendEmailVerification, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 
 import Navbar from '@components/Navbar/Navbar';
 import { AvatarToImageURL } from '@services/helperService'
@@ -31,8 +31,6 @@ export default function Profile() {
     const [canEdit, setCanEdit] = useState(false)
     const [validate, setValidate] = useState(false)
 
-    const [signInUserWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
-
     useEffect(() => {
         if (!loading && !user) {
             router.push('/login');
@@ -43,11 +41,14 @@ export default function Profile() {
                     setLoadingDoc(false)
 
                     if (doc.photoURL) {
+                        let found = false
                         avatars.forEach(avatar => {
                             if (doc.photoURL.includes(avatar)) {
                                 setCurrentAvatar(avatar)
+                                found = true
                             }
                         });
+                        if (!found) setCurrentAvatar(doc.photoURL)
                     } else setCurrentAvatar(user.photoURL ?? 'default');
 
                     const fetchedFormData = { name: doc.name ?? user.displayName ?? '', email: doc.email ?? user.email, password: '', confirmPassword: '', oldPassword: '' }
@@ -104,39 +105,49 @@ export default function Profile() {
         validateForm()
         if (user) {
             try {
+                let changed = false
                 if (!errors.name && canEdit && formData.email !== initialData.email) {
                     updateField(`/users/${user.uid}`, 'email', formData.email)
                     await updateEmail(user, formData.email)
+                    changed = true
                 }
                 if (!errors.email && formData.name !== initialData.name) {
                     updateField(`/users/${user.uid}`, 'displayName', formData.name)
                     await updateProfile(user, { displayName: formData.name })
+                    changed = true
                 }
                 if (!errors.password && formData.password.length > 0 && formData.password == formData.confirmPassword) {
                     try {
-                        await signInUserWithEmailAndPassword(initialData.email, formData.oldPassword)
-                        await updatePassword(user, formData.password)
+                        console.log('Attempting to sign in...');
+                        const credential = EmailAuthProvider.credential(user.email ?? initialData.email, formData.oldPassword);
+                        await reauthenticateWithCredential(user, credential);
+                        console.log('Signed in successfully. Attempting to update password...'); 
+                        await updatePassword(user, formData.password);
+                        console.log('Password updated successfully');
+
+                        changed = true
                     } catch (e) {
-                        let newErros = errors
+                        let newErros = { ...errors };
                         newErros.oldPassword = 'Passwort stimmt nicht'
+                        setErrors(newErros)
                     }
                 }
-
+                if (changed) window.location.reload();
             } catch (error) {
                 console.error(error);
             }
         }
     }
 
-    const sendVerificationEmail = async() => {
-        if (user){
+    const sendVerificationEmail = async () => {
+        if (user) {
             try {
                 sendEmailVerification(user)
                 setSentEmail(true)
             } catch (e) {
                 console.error(e)
             }
-        } 
+        }
     }
 
     return (
@@ -162,13 +173,13 @@ export default function Profile() {
                 </div>
                 <div className={styles['infos-container']}>
                     <div className={styles['name-email']}>
-                        <Input type='email' id='email' label='Email' value={formData.email} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.email} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit}/>
+                        <Input type='email' id='email' label='Email' value={formData.email} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.email} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit} />
                         <Input type='text' id='name' label='Name' value={formData.name} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.name} onBlur={(e: void) => handleInputChange(e)} />
                     </div>
-                    <Input type='password' id='oldPassword' label='Altes Passwort' value={formData.oldPassword} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.oldPassword} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit}/>
+                    <Input type='password' id='oldPassword' label='Altes Passwort' value={formData.oldPassword} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.oldPassword} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit} />
                     <div></div>
-                    <Input type='password' id='password' label='Neues Passwort' value={formData.password} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.password} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit}/>
-                    <Input type='password' id='confirmPassword' label='Passwort Bestätigen' value={formData.confirmPassword} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.confirmPassword} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit}/>
+                    <Input type='password' id='password' label='Neues Passwort' value={formData.password} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.password} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit} />
+                    <Input type='password' id='confirmPassword' label='Passwort Bestätigen' value={formData.confirmPassword} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.confirmPassword} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit} />
                 </div>
                 <div className={styles['button-container']}>
                     <Button green onClick={() => onSave()}>Speichern</Button>
