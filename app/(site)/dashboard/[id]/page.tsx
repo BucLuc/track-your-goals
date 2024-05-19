@@ -5,7 +5,7 @@ import styles from './week.module.css'
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, updateField, getDocument } from '@services/firebaseService'
-import {GetActivitySummary} from '@services/helperService'
+import { GetActivitySummary } from '@services/helperService'
 import { useRouter } from 'next/navigation'
 import Navbar from '@components/Navbar/Navbar';
 import WeekTable from '@components/Tables/WeekTable/WeekTable';
@@ -84,7 +84,7 @@ export default function Week({ params, }: { params: { id: string } }) {
 
     return (
         <div>
-            <Navbar user={user} photoURL={userDoc?.photoURL}/>
+            <Navbar user={user} photoURL={userDoc?.photoURL} />
             <div className={styles['body-container']}>
                 <div className={styles.title}>
                     {!loading && <IconButton toolTip='Zurück' href='/dashboard' icon='/img/close-icon.png' height={30} />}
@@ -96,7 +96,7 @@ export default function Week({ params, }: { params: { id: string } }) {
                         <h2>Tages-Ansicht</h2>
                         <WeekTable weekParam={userDoc.weeks[id]} userID={user?.uid} activities={userDoc.activities} dbFieldName='weeks' onSave={onSave} isPlanning={planning} />
                         <h2 className={styles.h2}>
-                            Total <img height={25} src={showTotal ? '/img/expander-down.png' : '/img/expander-right.png'} onClick={() => setShowTotal(!showTotal)} />
+                            Total <img height={25} src={!showTotal ? '/img/expander-down.png' : '/img/expander-right.png'} onClick={() => setShowTotal(!showTotal)} />
                         </h2>
 
                         {totalActivities && showTotal &&
@@ -110,7 +110,7 @@ export default function Week({ params, }: { params: { id: string } }) {
                                 </div>
                                 {!userDoc?.weeks[id]?.finished &&
                                     <div className={styles['finish-button']}>
-                                        <Button onClick={() => finishWeek()} big>Woche abschliessen</Button>
+                                        <Button onClick={() => finishWeek()} big green>Woche abschliessen</Button>
                                     </div>
                                 }
                             </div>

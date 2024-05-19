@@ -106,12 +106,12 @@ export default function Profile() {
         if (user) {
             try {
                 let changed = false
-                if (!errors.name && canEdit && formData.email !== initialData.email) {
+                if (!errors.email && canEdit && formData.email !== initialData.email) {
                     updateField(`/users/${user.uid}`, 'email', formData.email)
                     await updateEmail(user, formData.email)
                     changed = true
                 }
-                if (!errors.email && formData.name !== initialData.name) {
+                if (!errors.name && formData.name !== initialData.name) {
                     updateField(`/users/${user.uid}`, 'displayName', formData.name)
                     await updateProfile(user, { displayName: formData.name })
                     changed = true

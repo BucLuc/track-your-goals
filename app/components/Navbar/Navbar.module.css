@@ -10,6 +10,7 @@
     padding: 0;
     list-style: none;
     display: flex;
+    align-items: center;
     gap: 35px;
     font-size: 1.1rem;
 }
@@ -20,7 +21,7 @@
 }
 
 .nav-content ul li {
-    transition: transform 0.3s linear;
+    transition: transform 0.2s linear;
 }
 
 .nav-content ul li:hover {
@@ -28,12 +29,9 @@
 } 
 
 .nav-content ul li.active {
-    transform: scale(1.2);
+    font-size: 1.3rem;
     border-bottom: 1px solid var(--blue-text) ;
-}
-
-.nav-content ul li.active:hover {
-    transform: scale(1.25); 
+    font-weight: 500;
 }
 
 .nav .nav-content {
@@ -42,7 +40,7 @@
     margin: 0 auto 0 auto;
     padding: 10px 25px 10px 15px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
     place-items: center;
     border: 1px solid black;
     border-top: none;

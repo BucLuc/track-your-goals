@@ -12,10 +12,6 @@
   transition: transform 0.25s linear;
 }
 
-.button:hover {
-  background-color: #0f80f2;
-}
-
 .primary {
   background: linear-gradient(to bottom right, #6eb7ff, var(--blue-button));
 }
@@ -26,5 +22,9 @@
 
 
 .green {
-  background-color: var(--green);
+  background: linear-gradient(to bottom right, #51ff9a, var(--green));
+}
+
+.green:hover {
+  background: var(--green)
 }

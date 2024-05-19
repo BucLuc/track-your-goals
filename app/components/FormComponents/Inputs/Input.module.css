@@ -1,5 +1,4 @@
 .input-container {
-  margin-bottom: 10px;
   position: relative;
   width: 100%;
 }
@@ -36,6 +35,7 @@
   color: var(--red);
   font-size: 0.9rem;
   margin-bottom: 0;
+  margin-top: 10px;
 }
 
 .show-password {
@@ -43,6 +43,6 @@
   cursor: pointer;
   position: absolute;
   right: 10px;
-  top: 50%;
+  top: 51%;
   transform: translateY(-50%);
 }

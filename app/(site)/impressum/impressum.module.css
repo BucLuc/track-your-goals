@@ -1,0 +1,19 @@
+.container {
+    margin-top: 85px;
+    margin-bottom: 50px;
+    width: 70%;
+    margin-inline: auto;
+}
+
+.infos p {
+    margin: 5px 0;
+}
+
+.attribution {
+    display: flex;
+    width: 80%;
+    margin-inline: auto;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}

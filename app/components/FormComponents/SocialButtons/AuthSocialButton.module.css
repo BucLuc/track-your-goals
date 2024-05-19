@@ -1,19 +1,31 @@
 .social-button {
-    display: flex;
     width: 100%;
-    align-items: center;
+    height: 35px;
+
+    display: flex;
     justify-content: center;
-    gap: 5px;
+    align-items: center;
+    gap: 20px;
     padding: 5px 5px;
-    border-radius: 3px;
+    border-radius: 7px;
     background-color: transparent;
-    border: 1px solid var(--gray-1);
+    border: none;
     cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out;
+    color: var(--gray-1);
 }
 
 .social-button:hover {
-    background-color: var(--gray-0);
-    border-color: var(--gray-2);
-    transform: scale(1.1);
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.social-button img {
+    width: 20px;
+}
+
+.black {
+    color: white;
+    background: linear-gradient(to bottom right, rgb(88, 88, 88), black);
 }

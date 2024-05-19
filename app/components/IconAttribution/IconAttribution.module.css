@@ -1,0 +1,26 @@
+.container {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--dark-blue);
+    text-decoration: none;
+    padding: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: scale(1.05);
+}
+
+.img-container {
+    width: 55px;
+    height: 55px;
+    display: grid;
+    place-items: center;
+}
+
+.img-container img {
+    width: 100%;
+}

@@ -5,6 +5,7 @@ import {useAuthState} from 'react-firebase-hooks/auth'
 import {auth, getDocument} from '@services/firebaseService'
 import Navbar from "@components/Navbar/Navbar";
 import { useEffect, useState } from "react";
+import Footer from "../components/Footer/Footer";
 
 export default function Home() {
   const [user, loading, error] = useAuthState(auth);
@@ -81,6 +82,7 @@ export default function Home() {
               <a href="#infos">Mehr erfahren</a>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

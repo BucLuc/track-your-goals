@@ -11,8 +11,9 @@ import AuthSocialButton from '@components/FormComponents/SocialButtons/AuthSocia
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation'
 import { auth, getDocument, setDocument, checkForUserDetailOrCreate } from '@services/firebaseService'
-import { sendEmailVerification } from 'firebase/auth';
+import { sendEmailVerification, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import VerifyEmail from '@components/VerifyEmail/VerifyEmail';
+import ForgorPassword from '../../forgorEmail/ForgorPassword';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -29,14 +30,10 @@ export default function AuthForm() {
     }, [user, loading, router]);
 
     const [variant, setVariant] = useState<Variant>('LOGIN');
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: ''
-    })
+    const [formData, setFormData] = useState({ name: '', email: '', password: '' })
+    const [errors, setErrors] = useState({ email: '', password: '' });
+    const [forgorPassword, setForgorPassword] = useState(false)
 
-    const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
-    const [signInUserWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
     const [signInUserWithGoogleAccount] = useSignInWithGoogle(auth);
     const [signInUserWithGithubAccount] = useSignInWithGithub(auth);
     const [updateProfile] = useUpdateProfile(auth);
@@ -65,25 +62,67 @@ export default function AuthForm() {
 
     const onSubmit = async (event: any) => {
         event.preventDefault();
-        try {
-            let res;
-            if (variant === 'REGISTER'){
-                res = await createUserWithEmailAndPassword(formData.email, formData.password)
-                if (formData.name) {
-                    const newRes = await updateProfile({displayName: formData.name})
+        const foundErrors = validateForm()
+        if (!foundErrors.email && !foundErrors.password){
+            try {
+                let res;
+                if (variant === 'REGISTER') {
+                    res = await createUserWithEmailAndPassword(auth, formData.email, formData.password)
+                    if (formData.name) {
+                        const newRes = await updateProfile({ displayName: formData.name })
+                    }
+                    if (res) sendEmailVerification(res.user)
+    
+                } else {
+                    res = await signInWithEmailAndPassword(auth, formData.email, formData.password)
                 }
-            if (res) sendEmailVerification(res.user)
-                
-            } else {
-                res = await signInUserWithEmailAndPassword(formData.email, formData.password)
+                if (res) {
+                    checkForUserDetailOrCreate(res)
+                }
+                setFormData({ name: '', email: '', password: '' })
+            } catch (e: any) {
+                handleError(e);
             }
-            if (res) {
-                checkForUserDetailOrCreate(res)
-            }
-            setFormData({ name: '', email: '', password: '' })
-        } catch (e) {
-            console.error(e)
         }
+    }
+
+    const handleError = (error: any) => {
+        setErrors({email: '', password: ''})
+        console.log(error.code)
+        switch (error.code) {
+            case 'auth/email-already-in-use':
+                setErrors(prevErrors => ({ ...prevErrors, email: 'Email wird bereits verwendet' }));
+                break;
+            case 'auth/invalid-email':
+                setErrors(prevErrors => ({ ...prevErrors, email: 'Ungültiges Format' }));
+                break;
+            case 'auth/user-not-found':
+                setErrors(prevErrors => ({ ...prevErrors, email: 'Benutzer gibt es nicht' }));
+                break;
+            case 'auth/wrong-password':
+                setErrors(prevErrors => ({ ...prevErrors, password: 'Falsches Passwort' }));
+                break;
+            case 'auth/weak-password':
+                setErrors(prevErrors => ({ ...prevErrors, password: 'Passwort muss mindestens 6 Zeichen haben' }));
+                break;
+            case 'auth/invalid-credential':
+                setErrors(prevErrors => ({ ...prevErrors, email: 'Falsches Email oder Passwort' }));
+                break;
+            default:
+                setErrors(prevErrors => ({ ...prevErrors, email: 'An unknown error occurred' }));
+        }
+    };
+ 
+    const validateForm = () => {
+        setErrors({email: '', password: ''})
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        let validated = { ...errors };
+
+        validated.email = emailRegex.test(formData.email) ? '' : 'Ungültiges Format';
+        validated.password = formData.password.length < 6 ? 'Passwort muss mindestens 6 Zeichen haben' : '';
+
+        setErrors(validated)
+        return validated
     }
 
     const handleInputChange = (event: any) => {
@@ -97,32 +136,37 @@ export default function AuthForm() {
     return (
         <div className={styles['form-container']}>
             <div className={styles['form-content']}>
-                {!user &&
-                <form onSubmit={onSubmit}>
-                    <div className={styles['input-fields']}>
-                        {variant === 'REGISTER' && <Input id='name' label='Name' value={formData.name} onChange={(e: void) => handleInputChange(e)} />}
-                        <Input type='email' id='email' label='Email' value={formData.email} onChange={(e: void) => handleInputChange(e)} />
-                        <Input type='password' id='password' label='Passwort' value={formData.password} onChange={(e: void) => handleInputChange(e)} />
-                    </div>
-                    <Button type='submit' fullwidth>{variant === 'LOGIN' ? 'Login' : 'Sign in'}</Button>
-                    <span className={styles.seperator}>
-                        or
-                    </span>
-                    <div className={styles['social-buttons']}>
-                        <AuthSocialButton onClick={() => handleSocialAction('Google')} icon={BsGoogle} />
-                        <AuthSocialButton onClick={() => handleSocialAction('Github')} icon={BsGithub} />
-                    </div>
-                    <div className={styles['toggle-section']}>
-                        <div>
-                            {variant === 'LOGIN' ? 'Dont have an account?' : 'Already have an account?'}
+                {!user && !forgorPassword &&
+                    <form onSubmit={onSubmit}>
+
+                        <div className={styles['input-fields']}>
+                            {variant === 'REGISTER' && <Input id='name' label='Name' value={formData.name} onChange={(e: void) => handleInputChange(e)} />}
+                            <Input type='email' id='email' label='Email' value={formData.email} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.email}/>
+                            <Input type='password' id='password' label='Passwort' value={formData.password} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.password}/>
                         </div>
-                        <div className={styles.clickable} onClick={toggleVariant}>
-                            {variant === 'LOGIN' ? ' create one!' : ' login'}
+                        <Button type='submit' fullwidth>{variant === 'LOGIN' ? 'Login' : 'Sign in'}</Button>
+                        <span className={styles.seperator}>
+                            or
+                        </span>
+                        <div className={styles['social-buttons']}>
+                            <AuthSocialButton onClick={() => handleSocialAction('Google')} icon={'/img/google-icon.png'} text='Continue with Google' />
+                            <AuthSocialButton onClick={() => handleSocialAction('Github')} icon={'/img/github-icon.png'} text='Continue with Github' style='black' />
                         </div>
-                    </div>
-                </form>
+                        <div className={styles['account-options']}>
+                            <div className={styles['toggle-section']}>
+                                <div>
+                                    {variant === 'LOGIN' ? 'Du hast noch keinen Account?' : 'Du hast bereits einen Account?'}
+                                </div>
+                                <a href='#' onClick={toggleVariant}>
+                                    {variant === 'LOGIN' ? ' Erstelle einen' : ' Login'}
+                                </a>
+                            </div>
+                            <a href='#' onClick={() => setForgorPassword(true)}>Passwort vergessen?</a>
+                        </div>
+                    </form>
                 }
-                {user && !user.emailVerified && <VerifyEmail email={user.email  ?? ''} />}
+                {user && !user.emailVerified && <VerifyEmail email={user.email ?? ''} />}
+                {forgorPassword && <ForgorPassword emailParam={formData.email} onBack={() => setForgorPassword(false)}/>}
             </div>
         </div>
     )
