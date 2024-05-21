@@ -43,7 +43,7 @@ export default function Home() {
         <div className={styles.info}>
             <div className={styles.content}>
               <h2>Deine Aktivitäten, Deine Regeln</h2>
-              <p>Beginne mit "Track Your Goals" deine persönlichen Aktivitäten festzulegen. Ob Fitness, Lernen oder Meditation - plane deine Tagesziele nach deinen eigenen Vorstellungen. Alles in einer intuitiven und benutzerfreundlichen Oberfläche.</p>
+              <p>Beginne mit &quot;Track Your Goals&quot; deine persönlichen Aktivitäten festzulegen. Ob Fitness, Lernen oder Meditation - plane deine Tagesziele nach deinen eigenen Vorstellungen. Alles in einer intuitiven und benutzerfreundlichen Oberfläche.</p>
             </div>
             <div className={styles['img-section']}>
                 <img alt="activities" src="/img/activities.gif" />
