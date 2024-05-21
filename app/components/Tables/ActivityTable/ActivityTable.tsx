@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { updateField } from '@services/firebaseService'
 import Loading from '@components/Loading/Loading'
 import IconButton from '@components/IconButton/IconButton';
+import DropDown from '@components/FormComponents/DropDown/DropDown';
 
 interface TableProps {
     activitiesParam?: Activity[];
@@ -31,7 +32,7 @@ const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID, isLoadin
     const handleDropdownChange = (index: number, newValue: string) => {
         if (!activities.find(activity => activity.name === activities[index].name && activities.indexOf(activity) !== index)){
             const newActivities = handleChange(index, 'unit', newValue);
-            saveToDB(newActivities)
+            if (activities[index].name !== '') saveToDB(newActivities)
         } else alert(`Die Aktivität ${activities[index].name} existiert bereits`)
     };
 
@@ -65,7 +66,7 @@ const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID, isLoadin
             <div className={styles['table-body']}>
                 {isLoading ? <Loading centered/> : <div>
                     {activities && activities.map((activity: Activity, index: any) => (
-                        <div key={index} className={styles['table-row']}>
+                         <div key={index} className={styles['table-row']}>
                             <input type="text" placeholder='Eingeben..' value={activity.name} className={styles['input']} onChange={(e) => handleChange(index, 'name', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
                             <select value={activity.unit} className={styles['dropdown']} onChange={(e) => handleDropdownChange(index, e.target.value)}>
                                 {Object.keys(units).map((unitKey) => (

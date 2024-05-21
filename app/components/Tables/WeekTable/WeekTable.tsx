@@ -47,7 +47,10 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
     }
 
     const handleAdd = () => {
-        if (!activities) return
+        if (!activities || activities.length === 0) {
+            alert('Du hast noch keine Aktivitäten hinterlegt')
+            return
+        }
 
         const newActivity = activities[0]
         newActivity.plannedAmount = 0

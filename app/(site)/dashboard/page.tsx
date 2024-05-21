@@ -56,9 +56,9 @@ export default function Dashboard() {
                             <a href={`dashboard/${userDoc?.weeks ? userDoc.weeks.length + 1 : 1}`}><img src='/img/add-icon.png' alt='add-icon' /></a>
                         </div>
                         {userDoc?.weeks && [...userDoc.weeks].reverse().map((week: any, index: any) => (
-                            <a key={userDoc.weeks.indexOf(week)} className={`${styles.week} ${week.finished ? styles.finished : ''}`} href={`dashboard/${userDoc.weeks.indexOf(week) + 1}`} onMouseEnter={() => loadSummary(userDoc.weeks.indexOf(week))}>
+                            <a key={userDoc.weeks.indexOf(week)} className={`${styles.week} ${week.finished ? styles.finished : ''} ${weekSummaries && weekSummaries[userDoc.weeks.indexOf(week)] && Object.keys(weekSummaries[userDoc.weeks.indexOf(week)]).length ? '' : styles['dont-show'] }`} href={`dashboard/${userDoc.weeks.indexOf(week) + 1}`} onMouseEnter={() => loadSummary(userDoc.weeks.indexOf(week))}>
                                 {userDoc.weeks.indexOf(week) + 1}
-                                <div className={styles['hover-box']} id={index}>
+                                <div className={`${styles['hover-box']}`} id={index}>
                                     {weekSummaries[userDoc.weeks.indexOf(week)] ?
                                         <div className={styles['total-activities']}>
                                             {Object.keys(weekSummaries[userDoc.weeks.indexOf(week)]).map((name: any) => (

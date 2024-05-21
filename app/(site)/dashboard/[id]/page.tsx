@@ -44,7 +44,7 @@ export default function Week({ params, }: { params: { id: string } }) {
                         setPlanning(true)
 
                         const updatedWeeks = doc.weeks ? [...doc.weeks] : [];
-                        updatedWeeks[id] = doc.template;
+                        updatedWeeks[id] = doc.template ?? {};
                         doc.weeks = updatedWeeks
 
                         updateField(`users/${user.uid}`, 'weeks', updatedWeeks)
@@ -56,7 +56,7 @@ export default function Week({ params, }: { params: { id: string } }) {
                     console.error(err)
                 })
         }
-    }, [user, loading, router]);
+    }, [user, loading]);
 
     const onTotalChange = (doc: any) => {
         setTotalActivities(GetActivitySummary(doc.weeks[id]))

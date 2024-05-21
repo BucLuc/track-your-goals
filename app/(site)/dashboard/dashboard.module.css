@@ -48,6 +48,10 @@
     display: block;
 }
 
+.dont-show .hover-box{
+    display: none !important;
+}
+
 .add-week {
     background-color: var(--secondary);
     
@@ -67,7 +71,6 @@
 .finished {
     background-color: var(--green);
 }
-
 
 .hover-box {
     display: none;

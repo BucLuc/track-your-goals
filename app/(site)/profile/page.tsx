@@ -55,7 +55,7 @@ export default function Profile() {
                     setFormData(fetchedFormData)
                     setInitialData({ name: fetchedFormData.name, email: fetchedFormData.email })
 
-                    setCanEdit(user.providerData[0].providerId === 'password')
+                    setCanEdit(user.providerData[0].providerId === 'password' && user.emailVerified)
 
                 })
                 .catch(err => {
@@ -173,7 +173,7 @@ export default function Profile() {
                 </div>
                 <div className={styles['infos-container']}>
                     <div className={styles['name-email']}>
-                        <Input type='email' id='email' label='Email' value={formData.email} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.email} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit} />
+                        <Input type='email' id='email' label='Email' value={formData.email} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.email} onBlur={(e: void) => handleInputChange(e)}  disabled={!canEdit} />
                         <Input type='text' id='name' label='Name' value={formData.name} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.name} onBlur={(e: void) => handleInputChange(e)} />
                     </div>
                     <Input type='password' id='oldPassword' label='Altes Passwort' value={formData.oldPassword} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.oldPassword} onBlur={(e: void) => handleInputChange(e)} disabled={!canEdit} />
