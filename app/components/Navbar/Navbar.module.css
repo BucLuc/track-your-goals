@@ -5,7 +5,7 @@
     z-index: 1000;
 }
 
-.nav ul {
+.links {
     margin: 0 auto;
     padding: 0;
     list-style: none;
@@ -15,7 +15,7 @@
     font-size: 1.1rem;
 }
 
-.nav ul a {
+.links a {
     text-decoration: none;
     color: var(--dark-blue);
 }
@@ -121,4 +121,41 @@
 
 .nav .nav-content .user .menu a:hover {
     background-color: #e7e7e7;
+}
+
+.burger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.burger .bar {
+    width: 25px;
+    height: 3px;
+    background-color: black;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+@media (max-width: 1150px) {
+    .links {
+        display: none;
+    }
+    .links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        background-color: white;
+        width: 100%;
+        left: 0;
+        padding: 10px 0;
+    }
+    .burger {
+        display: flex;
+    }
+
+    .nav-open {
+        border-radius: 0 !important;
+    }
 }
