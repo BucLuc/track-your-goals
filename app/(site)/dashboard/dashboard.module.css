@@ -64,7 +64,7 @@
 }
 
 .add-week img {
-    max-width: 80%;
+    max-width: 50%;
 }
 
 
@@ -78,16 +78,16 @@
     color: black;
     top: calc(100% + 20px);
     padding: 5px;
-    border: 4px solid var(--blue-text);
+    border: 3px solid var(--blue-text);
     border-radius: 15px;
     min-width: 180px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 }
 
 .hover-box::before {
     content: '';
-    width: 4px;
+    width: 3px;
     height: 25px;
     background-color: var(--blue-text);
     position: absolute;
@@ -108,7 +108,7 @@
 }
 
 .finished .hover-box {
-    border: 4px solid var(--green);
+    border: 3px solid var(--green);
 }
 
 .total-activities {

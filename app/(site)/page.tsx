@@ -31,7 +31,7 @@ export default function Home() {
       <Navbar user={user} photoURL={photoURL}/>
       <div className={styles['hero-section']}>
         <div className={styles['hero-content']}>
-            <h1>Erreiche deine Ziele mit Track Your Goals</h1>
+            <h1>Track Your Goals</h1>
             <p>Kostenlos, einfach, effektiv - Dein persönlicher Wegbegleiter für tägliche Ziele und wöchentliche Erfolge.</p>
             <div className={styles['link-section']}>
               <a href="/login" className={styles['main-link']}>Anmelden</a>

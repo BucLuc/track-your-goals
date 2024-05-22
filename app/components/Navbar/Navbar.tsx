@@ -37,6 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeLink, user, photoURL }) => {
                     </div>   
                 {isHovering && (
                     <div className={styles.menu}>
+                        {user && <a href='/dashboard'>Dashboard</a>}
                         {user && <a href='/profile'>Profil</a>}
                         {user && <a href="#" onClick={() => signOut(auth)} className={styles['sign-out']}>Abmelden</a>}
                         {!user && <a href="/login">Anmelden</a>}

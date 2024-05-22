@@ -144,7 +144,7 @@ export default function AuthForm() {
                             <Input type='email' id='email' label='Email' value={formData.email} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.email}/>
                             <Input type='password' id='password' label='Passwort' value={formData.password} onChange={(e: void) => handleInputChange(e)} errorMessage={errors.password}/>
                         </div>
-                        <Button type='submit' fullwidth>{variant === 'LOGIN' ? 'Login' : 'Sign in'}</Button>
+                        <Button type='submit' fullwidth>{variant === 'LOGIN' ? 'Anmelden' : 'Registrieren'}</Button>
                         <span className={styles.seperator}>
                             or
                         </span>
