@@ -102,6 +102,14 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
         } else updateField(`users/${userID}`, `${dbFieldName}.${currentDay}`, newActivities)
     }
 
+    const onInputFocus = (event: any) => {
+        const target = event.currentTarget;
+
+        target.type = 'text';
+        target.setSelectionRange(0, target.value.length);
+        target.type = 'number';
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles['week-days']}>
@@ -121,7 +129,7 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
                     <p>Menge</p>
                 </div>
                 <div className={styles['table-body']}>
-                    {isLoading ? <Loading centered/> : <div>
+                    {isLoading ? <Loading centered /> : <div>
                         {week && week[currentDay] && week[currentDay].map((activity: Activity, index: number) => (
                             <div key={index} className={styles['table-row']}>
                                 <select value={activity.name} className={styles['dropdown']} onChange={(e) => handleDropDown(index, e.target.value, activity.plannedAmount, activity.actualAmount)}>
@@ -132,7 +140,7 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
                                     ))}
                                 </select>
                                 <div className={styles['input-container']}>
-                                    <input type="number" placeholder='0' ref={el => inputRefs.current[index] = el} value={isPlanning ? activity.plannedAmount : activity.actualAmount} className={`${styles['input']} ${!isPlanning ? activity.actualAmount && activity.plannedAmount && Number(activity.actualAmount) >= Number(activity.plannedAmount) ? styles.good : styles.bad : ''}`} onChange={(e) => handleChange(index, isPlanning ? 'plannedAmount' : 'actualAmount', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
+                                    <input type="number" placeholder='0' onFocus={onInputFocus} ref={el => inputRefs.current[index] = el} value={isPlanning ? activity.plannedAmount : activity.actualAmount} className={`${styles['input']} ${!isPlanning ? activity.actualAmount && activity.plannedAmount && Number(activity.actualAmount) >= Number(activity.plannedAmount) ? styles.good : styles.bad : ''}`} onChange={(e) => handleChange(index, isPlanning ? 'plannedAmount' : 'actualAmount', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
                                     <p onClick={() => inputRefs.current[index]?.focus()}>{!isPlanning ? '/' + activity.plannedAmount : ''}{activity.unit ? units[activity.unit].abbreviation : ""}</p>
                                 </div>
                                 <span className={styles['delete-button']}><IconButton onClick={() => handleDelete(index)} icon='/img/eraser-icon.png' height={20} padding='5px' danger /></span>

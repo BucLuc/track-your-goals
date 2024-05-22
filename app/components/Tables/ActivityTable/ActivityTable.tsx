@@ -1,6 +1,6 @@
 import styles from './ActivityTable.module.css'
 import { units, Activity } from '@config/config'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { updateField } from '@services/firebaseService'
 import Loading from '@components/Loading/Loading'
 import IconButton from '@components/IconButton/IconButton';
@@ -15,12 +15,24 @@ interface TableProps {
 const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID, isLoading }) => {
 
     const [activities, setActivities] = useState<Activity[]>([]);
+    const [isNewRowAdded, setIsNewRowAdded] = useState<boolean>(false);
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
     useEffect(() => {
         if (activitiesParam) {
             setActivities(activitiesParam);
         }
     }, [activitiesParam]);
+
+    useEffect(() => {
+        if (isNewRowAdded) {
+            const lastIndex = activities.length - 1;
+            if (inputRefs.current[lastIndex]) {
+                inputRefs.current[lastIndex]?.focus();
+            }
+            setIsNewRowAdded(false);
+        }
+    }, [isNewRowAdded, activities]);
 
     const handleInputSubmit = (index: number, newValue: string) => {
         if (!activities.find(activity => activity.name === newValue && activities.indexOf(activity) !== index) || newValue === "") {
@@ -57,6 +69,11 @@ const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID, isLoadin
         updateField(`users/${userID}`, 'activities', newActivities)
     }
 
+    const handleAddActivity = () => {
+        setActivities(prevActivities => [...prevActivities, { name: "", unit: "" }]);
+        setIsNewRowAdded(true);
+    };
+
     return (
         <div className={styles.table}>
             <div className={styles['table-header']}>
@@ -65,9 +82,17 @@ const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID, isLoadin
             </div>
             <div className={styles['table-body']}>
                 {isLoading ? <Loading centered/> : <div>
-                    {activities && activities.map((activity: Activity, index: any) => (
+                    {activities && activities.map((activity: Activity, index: number) => (
                          <div key={index} className={styles['table-row']}>
-                            <input type="text" placeholder='Eingeben..' value={activity.name} className={styles['input']} onChange={(e) => handleChange(index, 'name', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
+                            <input
+                                ref={(el) => inputRefs.current[index] = el}
+                                type="text"
+                                placeholder='Eingeben..'
+                                value={activity.name}
+                                className={styles['input']}
+                                onChange={(e) => handleChange(index, 'name', e.target.value)}
+                                onBlur={(e) => handleInputSubmit(index, e.target.value)}
+                            />
                             <select value={activity.unit} className={styles['dropdown']} onChange={(e) => handleDropdownChange(index, e.target.value)}>
                                 {Object.keys(units).map((unitKey) => (
                                     <option key={unitKey} value={unitKey}>
@@ -78,7 +103,7 @@ const ActivityTable: React.FC<TableProps> = ({ activitiesParam, userID, isLoadin
                             <span className={styles['delete-button']}><IconButton onClick={() => handleRemoveActivity(index)} icon='/img/eraser-icon.png' height={20} padding='5px' danger/></span>
                         </div>
                     ))}
-                    <div className={`${styles['table-row']} ${styles['add-element']}`} onClick={() => setActivities(prevActivities => [...prevActivities, { name: "", unit: "" }])}>
+                    <div className={`${styles['table-row']} ${styles['add-element']}`} onClick={handleAddActivity}>
                         <p>Aktivität hinzufügen</p>
                         <p>{units[""].displayName}</p>
                     </div>
