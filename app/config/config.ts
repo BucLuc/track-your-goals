@@ -27,6 +27,10 @@ export const units: UnitMap = {
       displayName: "Liter",
       abbreviation: "L"
     },
+    g: {
+      displayName: "Gramm",
+      abbreviation: "g"
+    },
     kg: { 
       displayName: "Kilogramm",
       abbreviation: "kg"

@@ -13,7 +13,8 @@ import { useRouter } from 'next/navigation'
 import { auth, getDocument, setDocument, checkForUserDetailOrCreate } from '@services/firebaseService'
 import { sendEmailVerification, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import VerifyEmail from '@components/VerifyEmail/VerifyEmail';
-import ForgorPassword from '../../forgorEmail/ForgorPassword';
+import ForgorPassword from '@/app/components/forgorPassword/ForgorPassword'
+import Loading from '@components/Loading/Loading'
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -136,7 +137,7 @@ export default function AuthForm() {
     return (
         <div className={styles['form-container']}>
             <div className={styles['form-content']}>
-                {!user && !forgorPassword &&
+                {!user && !forgorPassword ?
                     <form onSubmit={onSubmit}>
 
                         <div className={styles['input-fields']}>
@@ -164,9 +165,9 @@ export default function AuthForm() {
                             <a href='#' onClick={() => setForgorPassword(true)}>Passwort vergessen?</a>
                         </div>
                     </form>
-                }
-                {user && !user.emailVerified && <VerifyEmail email={user.email ?? ''} />}
-                {forgorPassword && <ForgorPassword emailParam={formData.email} onBack={() => setForgorPassword(false)}/>}
+                :
+                user && !user.emailVerified ? <VerifyEmail email={user.email ?? ''} /> :
+                forgorPassword ? <ForgorPassword emailParam={formData.email} onBack={() => setForgorPassword(false)}/> : <Loading centered/>}
             </div>
         </div>
     )

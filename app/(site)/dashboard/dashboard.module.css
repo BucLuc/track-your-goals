@@ -1,5 +1,10 @@
+.page-container {
+    overflow-y: scroll;
+    min-height: 100dvh;
+}
+
 .body-container {
-    width: 70%;
+    width: 70dvw;
     margin-inline: auto;
     margin-top: 100px;
 }
@@ -38,10 +43,12 @@
     color: white;
     text-decoration: none;
     font-size: 1.8rem;
+    z-index: 0;
 }
 
 .week:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
+    z-index: 3;
 }
 
 .week:hover .hover-box {
@@ -75,6 +82,7 @@
 .hover-box {
     display: none;
     position: absolute;
+    background-color: white;
     color: black;
     top: calc(100% + 20px);
     padding: 5px;
@@ -122,12 +130,3 @@
 .good {
     color: var(--green)
 }
-
-@keyframes scaleUpDown {
-    0%, 100% {
-      transform: scale(1); /* Original size */
-    }
-    50% {
-      transform: scale(1.05); /* Scaled up by 50% */
-    }
-  }

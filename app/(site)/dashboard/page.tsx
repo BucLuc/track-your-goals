@@ -43,7 +43,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div>
+        <div className={styles['page-container']}>
             <Navbar activeLink='DASHBOARD' user={user} photoURL={userDoc?.photoURL} />
 
             <div className={styles['body-container']}>

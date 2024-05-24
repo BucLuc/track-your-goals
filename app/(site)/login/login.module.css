@@ -1,13 +1,12 @@
 .page-container {
     min-height: 100vh;
     background-color:  rgb(243 244 246); 
-    position: relative;
+    display: grid;
+    place-items: center;
 }
 
 .form-container {
     min-width: 80%;
-    position: absolute;
-    top: 25%;
-    right: 50%;
-    transform: translateX(50%);
+    margin-inline: auto;
+    padding: 50px 0;
 }
