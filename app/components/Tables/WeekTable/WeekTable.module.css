@@ -94,7 +94,7 @@
     text-align: right;
     max-width: 200px;
     display: flex;
-    margin-bottom: -2px;
+    overflow: visible;
 }
 
 .input-container {
@@ -109,28 +109,6 @@
     padding: 0;
     font-size: 1.25rem;
     color: var(--dark-blue);
-}
-
-.dropdown {
-    width: auto; 
-    display: inline-block; 
-    padding: 8px 32px 8px 8px;
-    -webkit-appearance: none; 
-    -moz-appearance: none; 
-    appearance: none; 
-    padding: 0;
-    cursor: pointer;
-}
-
-
-.dropdown::after {
-    content: '▼'; 
-    padding: 8px 32px 8px 8px;
-    font-size: 12px;
-    color: #ccc; 
-    right: 10px;
-    position: absolute;
-    pointer-events: none; 
 }
 
 .delete-button {
@@ -149,4 +127,31 @@
 
 .good {
     color: var(--green)
+}
+
+.modal-form{
+    display: flex;
+    gap: 10%;
+}
+
+.modal-form input{
+    font-size: 1.25rem;
+}
+
+.modal-form select {
+    position: relative;
+    border: 1px solid #D3D3D3;
+    box-sizing: border-box;
+    max-height: 52px;
+    margin-top: 6px;
+    padding: 10px 12px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px 0px rgba(211, 211, 211, 0.5);
+    outline: none;
+    background-color: white;
+}
+
+.save-button {
+    display: flex;
+    justify-content: center;
 }

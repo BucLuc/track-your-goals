@@ -4,6 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 import { updateField } from '@services/firebaseService'
 import Loading from '@components/Loading/Loading'
 import IconButton from '@components/IconButton/IconButton';
+import InputDropDown from '@components/FormComponents/InputDropDown/InputDropDown';
+import CustomModal from '@components/Modals/CustomModal';
+import Input from '../../FormComponents/Inputs/Input';
+import Button from '../../FormComponents/Buttons/Button';
 
 interface TableProps {
     weekParam: IWeek;
@@ -22,20 +26,30 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
     const [currentDay, setCurrentDay] = useState(weekDays[0])
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalActivity, setModalActivity] = useState<Activity>()
+    const [currentIndex, setCurrentIndex] = useState(0)
+
     useEffect(() => {
         if (weekParam) {
             setWeek(weekParam);
         }
     }, [weekParam]);
 
-    function handleDropDown(index: number, value: string, plannedAmount: any, actualAmount: any) {
+    function handleInputDropDown(value: string, index: number, plannedAmount: any, actualAmount: any) {
         if (!activities || !week) return
 
         const newActivity = activities.find(activity => activity.name === value)
-        if (!newActivity) return
+        if (!newActivity) {
+            setCurrentIndex(index)
+            setModalOpen(true)
+            setModalActivity({name: value, unit: ""})
+            return
+        }
 
         newActivity.plannedAmount = plannedAmount
         newActivity.actualAmount = actualAmount
+
         const updatedActivities = week[currentDay].map((activity, idx) => {
             if (idx === index) {
                 return newActivity;
@@ -102,12 +116,35 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
         } else updateField(`users/${userID}`, `${dbFieldName}.${currentDay}`, newActivities)
     }
 
+    const saveModalActivity = async () => {
+        if (week) {
+            const newActivity: Activity = {name: modalActivity?.name ?? "", unit: modalActivity?.unit, plannedAmount: 0, actualAmount: 0}
+            const updatedActivities = week[currentDay].map((activity, idx) => {
+                if (idx === currentIndex) {
+                    return newActivity;
+                }
+                return activity;
+            });
+            setWeek({ ...week, [currentDay]: updatedActivities });
+            saveToDB(updatedActivities)
+            setModalOpen(false)
+
+            const newActivities = activities ? [...activities, newActivity] : newActivity
+            updateField(`users/${userID}`, 'activities', newActivities)
+        } 
+    }
+
     const onInputFocus = (event: any) => {
         const target = event.currentTarget;
 
         target.type = 'text';
         target.setSelectionRange(0, target.value.length);
         target.type = 'number';
+    }
+
+    const handleModalChange = (event: any) => {
+        const value = event.target.value;
+        setModalActivity({name: value, unit: modalActivity?.unit})
     }
 
     return (
@@ -132,13 +169,7 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
                     {isLoading ? <Loading centered /> : <div>
                         {week && week[currentDay] && week[currentDay].map((activity: Activity, index: number) => (
                             <div key={index} className={styles['table-row']}>
-                                <select value={activity.name} className={styles['dropdown']} onChange={(e) => handleDropDown(index, e.target.value, activity.plannedAmount, activity.actualAmount)}>
-                                    {activities?.map((act, index) => (
-                                        <option key={index} value={act.name}>
-                                            {act.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                <InputDropDown valueParam={activity.name} valuesParam={activities && Object.keys(activities).map((key: any )=> activities && activities[key].name)} onSubmit={(value) => handleInputDropDown(value, index, activity.plannedAmount, activity.actualAmount)}/>
                                 <div className={styles['input-container']}>
                                     <input type="number" placeholder='0' onFocus={onInputFocus} ref={el => inputRefs.current[index] = el} value={isPlanning ? activity.plannedAmount : activity.actualAmount} className={`${styles['input']} ${!isPlanning ? activity.actualAmount && activity.plannedAmount && Number(activity.actualAmount) >= Number(activity.plannedAmount) ? styles.good : styles.bad : ''}`} onChange={(e) => handleChange(index, isPlanning ? 'plannedAmount' : 'actualAmount', e.target.value)} onBlur={(e) => handleInputSubmit(index, e.target.value)} />
                                     <p onClick={() => inputRefs.current[index]?.focus()}>{!isPlanning ? '/' + activity.plannedAmount : ''}{activity.unit ? units[activity.unit].abbreviation : ""}</p>
@@ -155,6 +186,27 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
                     </div>}
                 </div>
             </div>
+            <CustomModal open={modalOpen} onClose={() => setModalOpen(false)}>
+                {modalOpen &&
+                <div>
+                    <h2>Diese Aktivität existiert nicht</h2>
+                    <div className={styles['modal-form']}>
+                        <Input id="modalInput" onChange={(e:void) => handleModalChange(e)} value={modalActivity?.name || ''} />
+                        <select value={modalActivity?.unit} className={styles['dropdown']} onChange={(e) => setModalActivity({name: modalActivity?.name ?? "", unit: e.target.value})}>
+                                {Object.keys(units).map((unitKey) => (
+                                    <option key={unitKey} value={unitKey}>
+                                        {units[unitKey].displayName}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
+
+                    <div className={styles['save-button']}>
+                        <Button onClick={() => saveModalActivity()} fullwidth >hinzufügen</Button>
+                    </div>
+                </div>
+                }
+            </CustomModal>
         </div>
     )
 }

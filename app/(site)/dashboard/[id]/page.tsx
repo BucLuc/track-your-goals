@@ -95,8 +95,8 @@ export default function Week({ params, }: { params: { id: string } }) {
                     <div>
                         <h2>Tages-Ansicht</h2>
                         <WeekTable weekParam={userDoc.weeks[id]} userID={user?.uid} activities={userDoc.activities} dbFieldName='weeks' onSave={onSave} isPlanning={planning} />
-                        <h2 className={styles.h2}>
-                            Total <img height={25} src={!showTotal ? '/img/expander-down.png' : '/img/expander-right.png'} onClick={() => setShowTotal(!showTotal)} />
+                        <h2 className={styles.h2} onClick={() => setShowTotal(!showTotal)}>
+                            Total <img height={25} src={!showTotal ? '/img/expander-down.png' : '/img/expander-right.png'}/>
                         </h2>
 
                         {totalActivities && showTotal &&

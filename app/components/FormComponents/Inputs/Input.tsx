@@ -4,7 +4,7 @@ import styles from './Input.module.css'
 import { useState } from 'react';
 
 interface InputProps {
-    label: string;
+    label?: string;
     id: string;
     value?: string;
     errorMessage?: string;

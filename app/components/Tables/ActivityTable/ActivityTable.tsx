@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { updateField } from '@services/firebaseService'
 import Loading from '@components/Loading/Loading'
 import IconButton from '@components/IconButton/IconButton';
-import DropDown from '@components/FormComponents/DropDown/DropDown';
+import DropDown from '@/app/components/FormComponents/InputDropDown/InputDropDown';
 
 interface TableProps {
     activitiesParam?: Activity[];
