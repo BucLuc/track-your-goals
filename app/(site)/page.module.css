@@ -1,11 +1,11 @@
 .container {
     position: relative;
+    
 }
 
 .hero-section {
     height: 100dvh;
     position: relative;
-
     margin-inline: auto;
     display: grid;
     place-items: center;
@@ -43,36 +43,30 @@
 
 .hero-section p {
     width: 75%;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin-bottom: 45px;
     z-index: 1;
 }
 
-.link-section {
-    display: flex;
-    justify-content: center;
-    gap: 35px;
+.hero-section a {
+    position: absolute;
+    left: 50%;
+    bottom: 5%;
+    transform: translateX(-50%);
+    animation: upDown 2s ease-in-out infinite;
+}
+
+.hero-section a img {
+    max-width: 15%;
     z-index: 1;
+    transition: transform 0.3s ease;
 }
 
-.link-section a {
-    padding: 10px 15px;
-    font-size: 1.1rem;
-    text-decoration: none;
-    color: white;
-    border: 1px solid white;
-    transition: transform 0.3s ease-in-out;
+.hero-section a img:hover{
+    transform: scale(1.2);
 }
 
-.link-section a:hover {
-    transform: scale(1.1);
-}
-
-.link-section .main-link {
-    background-color: var(--secondary);
-    border: none;
-}
 
 
 .info {
@@ -160,4 +154,38 @@
 
 .end-part p {
     font-size: 1.1rem;
+}
+
+.link-section {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    z-index: 1;
+}
+
+.link-section a {
+    padding: 10px 15px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: white;
+    border: 1px solid white;
+    transition: transform 0.3s ease-in-out;
+}
+
+.link-section a:hover {
+    transform: scale(1.1);
+}
+
+.link-section .main-link {
+    background-color: var(--secondary);
+    border: none;
+}
+
+@keyframes upDown {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-20px);
+    }
 }

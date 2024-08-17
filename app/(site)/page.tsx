@@ -33,10 +33,7 @@ export default function Home() {
         <div className={styles['hero-content']}>
             <h1>Track Your Goals</h1>
             <p>Kostenlos, einfach, effektiv - Dein persönlicher Wegbegleiter für tägliche Ziele und wöchentliche Erfolge.</p>
-            <div className={styles['link-section']}>
-              <a href="/login" className={styles['main-link']}>Anmelden</a>
-              <a href="#infos">Mehr erfahren</a>
-            </div>
+            <a href="#infos"><img alt="arrow" src="/img/arrow-down.png"/></a>
           </div>
       </div>
       <div className={styles.infos} id="infos">
