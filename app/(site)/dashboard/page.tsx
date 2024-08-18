@@ -52,9 +52,9 @@ export default function Dashboard() {
                     <h1>Wilkommen zurück, {getUserName(user)}</h1>
                     <h2>Deine Wochen</h2>
                     <div className={styles.weeks}>
-                        <div className={`${styles.week} ${styles['add-week']}`}>
-                            <a href={`dashboard/${userDoc?.weeks ? userDoc.weeks.length + 1 : 1}`}><img src='/img/add-icon.png' alt='add-icon' /></a>
-                        </div>
+                        <a href={`dashboard/${userDoc?.weeks ? userDoc.weeks.length + 1 : 1}`} className={`${styles.week} ${styles['add-week']}`}>
+                            <img src='/img/add-icon.png' alt='add-icon' />
+                        </a>
                         {userDoc?.weeks && [...userDoc.weeks].reverse().map((week: any, index: any) => (
                             <a key={userDoc.weeks.indexOf(week)} className={`${styles.week} ${week.finished ? styles.finished : ''} ${weekSummaries && weekSummaries[userDoc.weeks.indexOf(week)] && Object.keys(weekSummaries[userDoc.weeks.indexOf(week)]).length ? '' : styles['dont-show'] }`} href={`dashboard/${userDoc.weeks.indexOf(week) + 1}`} onMouseEnter={() => loadSummary(userDoc.weeks.indexOf(week))}>
                                 {userDoc.weeks.indexOf(week) + 1}

@@ -36,7 +36,7 @@ export default function Template() {
             <Navbar activeLink='TEMPLATE' user={user} photoURL={userDoc?.photoURL}/>
             <div className={styles['body-container']}>
                 <h1>Deine Wochenvorlage</h1>
-                <WeekTable weekParam={userDoc.template} userID={user?.uid} activities={userDoc.activities} dbFieldName='template' isLoading={loadingDoc} isPlanning/>
+                <WeekTable weekParam={userDoc.template} userID={user?.uid} activitiesParam={userDoc.activities} dbFieldName='template' isLoading={loadingDoc} isPlanning/>
             </div>
         </div>
     )

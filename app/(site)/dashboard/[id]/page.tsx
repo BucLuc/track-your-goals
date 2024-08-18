@@ -18,11 +18,11 @@ import IconButton from '@components/IconButton/IconButton';
 export default function Week({ params, }: { params: { id: string } }) {
     const [user, loading, error] = useAuthState(auth);
     const [userDoc, setUserDoc] = useState<any>()
-    const [showTotal, setShowTotal] = useState(false)
     const [totalActivities, setTotalActivities] = useState<any>([])
     const [planning, setPlanning] = useState(true)
     const [id, setID] = useState(0)
     const router = useRouter();
+    const [activeTab, setActiveTab] = useState(1)
 
     useEffect(() => {
         if (params.id) {
@@ -89,30 +89,39 @@ export default function Week({ params, }: { params: { id: string } }) {
                 <div className={styles.title}>
                     {!loading && <IconButton toolTip='Zurück' href='/dashboard' icon='/img/close-icon.png' height={30} />}
                     <h1>Woche {id + 1}</h1>
-                    {!loading && <IconButton toolTip={planning ? 'Tracking Modus' : 'Bearbeiten'} onClick={() => setPlanning(!planning)} icon={`/img/${planning ? 'ok' : 'edit'}-icon.png`} height={30} />}
+                    {!loading && <IconButton toolTip={planning ? 'Tracking Modus' : 'Woche Planen'} onClick={() => {setPlanning(!planning); setActiveTab(1)}} icon={`/img/${planning ? 'ok' : 'edit'}-icon.png`} height={30} />}
                 </div>
                 {!userDoc ? <Loading centered size='100px' /> :
                     <div>
-                        <h2>Tages-Ansicht</h2>
-                        <WeekTable weekParam={userDoc.weeks[id]} userID={user?.uid} activities={userDoc.activities} dbFieldName='weeks' onSave={onSave} isPlanning={planning} />
-                        <h2 className={styles.h2} onClick={() => setShowTotal(!showTotal)}>
-                            Total <img height={25} src={!showTotal ? '/img/expander-down.png' : '/img/expander-right.png'}/>
-                        </h2>
-
-                        {totalActivities && showTotal &&
+                        <div className={styles.tabs}>
+                            {!planning &&<h2 className={`${activeTab === 0 ? styles.active : ''}`} onClick={() => setActiveTab(0)}>Total</h2>}
+                            <h2 className={`${activeTab === 1 && !planning ? styles.active : ''}`} onClick={() => setActiveTab(1)}>{!planning ? 'Tages-Ansicht' : 'Woche Planen'}</h2>
+                            {!planning && <h2 className={`${activeTab === 2 ? styles.active : ''}`} onClick={() => setActiveTab(2)}>Journal</h2>}
+                        </div>
+                        {activeTab === 1 &&
+                        <div className={styles.weektable}>
+                            <WeekTable weekParam={userDoc.weeks[id]} userID={user?.uid} activitiesParam={userDoc.activities} dbFieldName='weeks' onSave={onSave} isPlanning={planning} />
+                        </div>
+                        }   
+                        {totalActivities && activeTab === 0 && 
                             <div>
                                 <div className={styles['total-activities']}>
                                     {Object.keys(totalActivities).map((name: any) => (
                                         <p key={name}>
-                                            {name}: <span className={Number(totalActivities[name].actualAmount) >= Number(totalActivities[name].plannedAmount) ? styles.good : styles.bad}>{totalActivities[name].actualAmount}</span>/{totalActivities[name].plannedAmount}{totalActivities[name].unit}
+                                            <span className={styles['activity-name']}>{name}</span>: <span className={Number(totalActivities[name].actualAmount) >= Number(totalActivities[name].plannedAmount) ? styles.good : styles.bad}>{totalActivities[name].actualAmount}</span>/{totalActivities[name].plannedAmount}{totalActivities[name].unit}
                                         </p>
                                     ))}
                                 </div>
-                                {!userDoc?.weeks[id]?.finished &&
+                                {!userDoc?.weeks[id]?.finished && false &&
                                     <div className={styles['finish-button']}>
                                         <Button onClick={() => finishWeek()} big green>Woche abschliessen</Button>
                                     </div>
                                 }
+                            </div>
+                        }
+                        { activeTab === 2 &&
+                            <div className={styles.journal}>
+                                <h2>Under Construction :)</h2>
                             </div>
                         }
                     </div>

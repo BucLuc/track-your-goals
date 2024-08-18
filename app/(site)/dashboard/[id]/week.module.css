@@ -9,9 +9,34 @@
     font-size: 2.6em;
 }
 
-.body-container h2 {
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+}
+
+.tabs h2 {
     text-align: center;
     font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    padding: 6px 18px;
+}
+
+.tabs h2:hover {
+    transform: scale(1.075);
+}
+
+.tabs h2.active {
+    background-color: #fefefe;
+    border-radius: 25px;
+    box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1),
+    -10px -10px 10px white;
+    transform: scale(1.1);
+}
+
+.tabs h2.active:hover {
+    transform: scale(1.125);
 }
 
 .body-container .title {
@@ -21,32 +46,23 @@
     gap: 100px;
 }
 
-.h2 {
-    margin-inline: auto;
-    padding-bottom: 10px;
-    width: 45%;
-    border-bottom: 1px dotted var(--gray-1);
-    cursor: pointer;
-}
-
-.h2 img {
-    cursor: pointer;
+.weektable {
+    margin-top: 15px;
 }
 
 .total-activities {
+    background-color: #fafafa;
+    border-radius: 25px;
     display: grid;
     grid-template-columns: 1fr 1fr; 
-    width: 50%;
+    width: max(30%, 415px);
     margin-inline: auto;
     place-items: center;
-
-    font-size: 1.2rem;
+    font-size: 1.45rem;
 }
 
-.finish-button {
-    display: flex;
-    justify-content: center;
-    margin: 50px 0;
+.activity-name {
+    font-size: 1.55rem;
 }
 
 .bad {
@@ -55,4 +71,8 @@
 
 .good {
     color: var(--green)
+}
+
+.journal {
+    text-align: center;
 }

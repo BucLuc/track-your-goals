@@ -17,7 +17,7 @@
 }
 
 .primary:hover {
-  background: var(--blue-button)
+  background: linear-gradient(to bottom right, #5ea4e5, #1f78cb);
 }
 
 
@@ -26,5 +26,5 @@
 }
 
 .green:hover {
-  background: var(--green)
+  background: linear-gradient(to bottom right, #4bf196, #30c46e);
 }
