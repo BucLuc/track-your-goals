@@ -111,8 +111,16 @@
     border: 3px solid var(--green);
 }
 
+.date {
+    font-weight: 500;
+}
+
 .total-activities {
     font-size: 1.2rem;
+}
+
+.total-activities p {
+    margin: 12px 0 0 0;
 }
 
 .bad {

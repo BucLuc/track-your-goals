@@ -11,7 +11,7 @@ import Button from '../../FormComponents/Buttons/Button';
 
 interface TableProps {
     weekParam: IWeek;
-    activities?: Activity[];
+    activitiesParam?: Activity[];
     userID?: string;
     dbFieldName: string;
     isLoading?: boolean;
@@ -21,7 +21,7 @@ interface TableProps {
 }
 
 
-const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFieldName, isLoading, onSave, isPlanning, showTotal }) => {
+const WeekTable: React.FC<TableProps> = ({ weekParam, activitiesParam, userID, dbFieldName, isLoading, onSave, isPlanning, showTotal }) => {
     const [week, setWeek] = useState<IWeek>();
     const [currentDay, setCurrentDay] = useState(weekDays[0])
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -30,22 +30,31 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
     const [modalActivity, setModalActivity] = useState<Activity>()
     const [currentIndex, setCurrentIndex] = useState(0)
 
+    const [activities, setActivities] = useState<Activity[]>()
+
     useEffect(() => {
         if (weekParam) {
             setWeek(weekParam);
         }
     }, [weekParam]);
 
-    function handleInputDropDown(value: string, index: number, plannedAmount: any, actualAmount: any) {
-        if (!activities || !week) return
+    useEffect(() => {
+        if (activitiesParam) {
+            setActivities(activitiesParam)
+        }
+    }, [activitiesParam])
 
-        const newActivity = activities.find(activity => activity.name === value)
-        if (!newActivity) {
+    function handleInputDropDown(value: string, index: number, plannedAmount: any, actualAmount: any) {
+        if (!week) return
+
+        const newActivity = activities?.find(activity => activity.name === value)
+
+        if (!activities || !newActivity) {
             setCurrentIndex(index)
             setModalOpen(true)
             setModalActivity({name: value, unit: ""})
             return
-        }
+        } 
 
         newActivity.plannedAmount = plannedAmount
         newActivity.actualAmount = actualAmount
@@ -61,12 +70,7 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
     }
 
     const handleAdd = () => {
-        if (!activities || activities.length === 0) {
-            alert('Du hast noch keine Aktivitäten hinterlegt')
-            return
-        }
-
-        const newActivity = activities[0]
+        const newActivity = activities ? activities[0] : {name: "", unit: ""}
         newActivity.plannedAmount = 0
         newActivity.actualAmount = 0
 
@@ -129,7 +133,9 @@ const WeekTable: React.FC<TableProps> = ({ weekParam, activities, userID, dbFiel
             saveToDB(updatedActivities)
             setModalOpen(false)
 
-            const newActivities = activities ? [...activities, newActivity] : newActivity
+            const newActivities = activities ? [...activities, newActivity] : [newActivity]
+            
+            setActivities(newActivities)
             updateField(`users/${userID}`, 'activities', newActivities)
         } 
     }

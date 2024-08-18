@@ -65,12 +65,10 @@ const Impressum = () => {
           <IconAttribution icon="/img/verify-email-icon.png" text="Email icons created by FACH - Flaticon" href="https://www.flaticon.com/free-icons/email" />
           <IconAttribution icon="/img/google-icon.png" text="Google icons created by Freepik - Flaticon" href="https://www.flaticon.com/free-icons/google" />
           <IconAttribution icon="/img/github-icon.png" text="Github icons created by Pixel perfect - Flaticon" href="https://www.flaticon.com/free-icons/github" />
-          <IconAttribution icon="/img/ok-icon.png" text="Correct icons created by Elite Art - Flaticon" href="https://www.flaticon.com/free-icons/correct" />
           <IconAttribution icon="/img/expander-right.png" text="Expand icons created by Google - Flaticon" href="https://www.flaticon.com/free-icons/expand" />
           <IconAttribution icon="/img/eraser-icon.png" text="Eraser icons created by Those Icons - Flaticon" href="https://www.flaticon.com/free-icons/eraser" />
-          <IconAttribution icon="/img/edit-icon.png" text="Edit icons created by alkhalifi design - Flaticon" href="https://www.flaticon.com/free-icons/edit" />
-          <IconAttribution icon="/img/close-icon.png" text="Arrow icons created by Kirill Kazachek - Flaticon" href="https://www.flaticon.com/free-icons/arrow" />
           <IconAttribution icon="/img/add-icon.png" text="Plus icons created by srip - Flaticon" href="https://www.flaticon.com/free-icons/plus" />
+          <IconAttribution icon="/img/arrow-down.png" text="Navigation icons created by Sikeystd - Flaticon" href="https://www.flaticon.com/free-icons/navigation" />
         </div>
     </div>
   );
