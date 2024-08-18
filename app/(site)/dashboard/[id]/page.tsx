@@ -87,9 +87,7 @@ export default function Week({ params, }: { params: { id: string } }) {
             <Navbar user={user} photoURL={userDoc?.photoURL} />
             <div className={styles['body-container']}>
                 <div className={styles.title}>
-                    {!loading && <IconButton toolTip='Zurück' href='/dashboard' icon='/img/close-icon.png' height={30} />}
                     <h1>Woche {id + 1}</h1>
-                    {!loading && <IconButton toolTip={planning ? 'Tracking Modus' : 'Bearbeiten'} onClick={() => setPlanning(!planning)} icon={`/img/${planning ? 'ok' : 'edit'}-icon.png`} height={30} />}
                 </div>
                 {!userDoc ? <Loading centered size='100px' /> :
                     <div>
