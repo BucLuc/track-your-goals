@@ -64,7 +64,8 @@ const InputDropDown: React.FC<Props> = ({ valueParam, valuesParam, onChange, onS
         <div className={styles.container}>
             <input value={currentValue} placeholder='Eingeben..'
             ref={inputRef}
-            className={styles.input} onChange={(e) => handleInputChange(e)}
+            className={styles.input} 
+            onChange={(e) => handleInputChange(e)}
             onFocus={() => setDropdownVisible(true)}
             onBlur={(e) => handleBlur(e)}
             onKeyDown={handleKeyDown}    

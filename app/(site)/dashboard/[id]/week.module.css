@@ -7,6 +7,10 @@
 .body-container h1 {
     text-align: center;
     font-size: 2.6em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
 }
 
 .tabs {
@@ -46,13 +50,45 @@
     gap: 100px;
 }
 
+.body-container .title .date {
+    font-size: 0.7em;
+    color: #2B3D4F;
+    display: flex;
+    gap: 5px;
+}
+
+.date-input {
+    font-size: 1em;
+    color: #2B3D4F;
+    border: none;
+    background: transparent;
+    cursor: text;
+    text-align: left;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.date-input:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+.date-input:hover::-webkit-calendar-picker-indicator {
+    opacity: 1;
+    cursor: pointer;
+}
+
 .weektable {
     margin-top: 15px;
 }
 
 .total-activities {
-    background-color: #fafafa;
-    border-radius: 25px;
     display: grid;
     grid-template-columns: 1fr 1fr; 
     width: max(30%, 415px);
@@ -74,5 +110,14 @@
 }
 
 .journal {
-    text-align: center;
+    height: 40vh;
+}
+
+.edit-button {
+    position: fixed;
+    bottom: 20px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 1000; 
+    width: 20%;
 }

@@ -1,3 +1,5 @@
+import { weekDays } from "../config/config";
+
 function getUserName(user: any) {
     return user.displayName ? user.displayName : user.email
 }
@@ -11,21 +13,42 @@ function GetActivitySummary(week: any) {
 
     for (const day in week) {
         if (week.hasOwnProperty(day)) {
-            week[day].forEach((activity: any) => {
-                if (!combinedDictionary[activity.name]) {
-                    combinedDictionary[activity.name] = {
-                        actualAmount: 0,
-                        plannedAmount: 0,
-                        unit: activity.unit
-                    };
-                }
-                combinedDictionary[activity.name].actualAmount += activity.actualAmount ? Number(activity.actualAmount) : 0;
-                combinedDictionary[activity.name].plannedAmount += activity.plannedAmount ? Number(activity.plannedAmount) : 0;
-            });
+            if (weekDays.includes(day)) {
+                week[day].forEach((activity: any) => {
+                    if (!combinedDictionary[activity.name]) {
+                        combinedDictionary[activity.name] = {
+                            actualAmount: 0,
+                            plannedAmount: 0,
+                            unit: activity.unit
+                        };
+                    }
+                    combinedDictionary[activity.name].actualAmount += activity.actualAmount ? Number(activity.actualAmount) : 0;
+                    combinedDictionary[activity.name].plannedAmount += activity.plannedAmount ? Number(activity.plannedAmount) : 0;
+                });
+            }
         }
 
     }
     return combinedDictionary
 }
 
-export { getUserName, AvatarToImageURL, GetActivitySummary }
+function successfulWeek (week: any) {
+    let successful = true
+    
+    for (const day in week) {
+        if (week.hasOwnProperty(day)) {
+            if (weekDays.includes(day)) {
+                week[day].forEach((activity: any) => {
+                    if (activity.plannedAmount > activity.actualAmount){
+                        successful = false
+                    }
+                });
+            }
+        }
+
+    }
+
+    return successful
+}
+
+export { getUserName, AvatarToImageURL, GetActivitySummary, successfulWeek }

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@services/firebaseService'
 import { useRouter } from 'next/navigation'
-import { GetActivitySummary, getUserName } from '@services/helperService'
+import { GetActivitySummary, getUserName, successfulWeek } from '@services/helperService'
 import { getDocument } from '@services/firebaseService'
 import Navbar from '@components/Navbar/Navbar';
 import Loading from '@components/Loading/Loading';
@@ -56,11 +56,12 @@ export default function Dashboard() {
                             <img src='/img/add-icon.png' alt='add-icon' />
                         </a>
                         {userDoc?.weeks && [...userDoc.weeks].reverse().map((week: any, index: any) => (
-                            <a key={userDoc.weeks.indexOf(week)} className={`${styles.week} ${week.finished ? styles.finished : ''} ${weekSummaries && weekSummaries[userDoc.weeks.indexOf(week)] && Object.keys(weekSummaries[userDoc.weeks.indexOf(week)]).length ? '' : styles['dont-show'] }`} href={`dashboard/${userDoc.weeks.indexOf(week) + 1}`} onMouseEnter={() => loadSummary(userDoc.weeks.indexOf(week))}>
+                            <a key={userDoc.weeks.indexOf(week)} className={`${styles.week} ${successfulWeek(week) ? styles.finished : ''} ${weekSummaries && weekSummaries[userDoc.weeks.indexOf(week)] && Object.keys(weekSummaries[userDoc.weeks.indexOf(week)]).length ? '' : styles['dont-show'] }`} href={`dashboard/${userDoc.weeks.indexOf(week) + 1}`} onMouseEnter={() => loadSummary(userDoc.weeks.indexOf(week))}>
                                 {userDoc.weeks.indexOf(week) + 1}
                                 <div className={`${styles['hover-box']}`} id={index}>
                                     {weekSummaries[userDoc.weeks.indexOf(week)] ?
                                         <div className={styles['total-activities']}>
+                                            {week.startDate && <span className={styles.date}>{week.startDate}</span>}
                                             {Object.keys(weekSummaries[userDoc.weeks.indexOf(week)]).map((name: any) => (
                                                 <p key={name}>
                                                     {name}: <span className={Number(weekSummaries[userDoc.weeks.indexOf(week)][name].actualAmount) >= Number(weekSummaries[userDoc.weeks.indexOf(week)][name].plannedAmount) ? styles.good : styles.bad}>{weekSummaries[userDoc.weeks.indexOf(week)][name].actualAmount}</span>/{weekSummaries[userDoc.weeks.indexOf(week)][name].plannedAmount}{weekSummaries[userDoc.weeks.indexOf(week)][name].unit}
