@@ -19,7 +19,7 @@ export default function Week({ params, }: { params: { id: string } }) {
     const [userDoc, setUserDoc] = useState<any>()
     const [totalActivities, setTotalActivities] = useState<any>([])
     const [planning, setPlanning] = useState(true)
-    const [startDate, setStartDate] = useState("");
+    const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
     const [id, setID] = useState(0)
     const router = useRouter();
     const [activeTab, setActiveTab] = useState(1)
@@ -49,13 +49,14 @@ export default function Week({ params, }: { params: { id: string } }) {
                         const updatedWeeks = doc.weeks ? [...doc.weeks] : [];
                         updatedWeeks[id] = doc.template ?? {};
                         updatedWeeks[id].startDate = new Date().toISOString().split('T')[0].split('-').reverse().join('.');
-                        setStartDate(new Date().toISOString().split('T')[0]);
                         doc.weeks = updatedWeeks
 
                         updateField(`users/${user.uid}`, 'weeks', updatedWeeks)
                     } else {
                         setPlanning(false)
-                        setStartDate(doc.weeks[id].startDate.split('.').reverse().join('-') ?? new Date().toISOString().split('T')[0])
+                        if (doc.weeks[id].startDate) {
+                            setStartDate(doc.weeks[id].startDate.split('.').reverse().join('-') ?? new Date().toISOString().split('T')[0])
+                        }
                         setNotes(doc.weeks[id].notes ?? '')
                     }
                     setUserDoc(doc)
