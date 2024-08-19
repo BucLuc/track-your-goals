@@ -21,6 +21,11 @@ h1, h2 {
   font-weight: 500;
 }
 
+html {
+  background: linear-gradient(to top, #ffffff, #edf4fd9b);
+  min-height: 100vh;
+}
+
 
 body {
   margin: 0;
