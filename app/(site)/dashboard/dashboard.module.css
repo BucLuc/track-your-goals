@@ -11,7 +11,41 @@
 
 .body-container h2 {
     text-align: center;
+    font-size: 2em;
 }
+
+.first-steps h2 {
+    margin-bottom: 8px;
+}
+
+.first-steps .links {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    gap: 10px;
+}
+
+.first-steps .links .done {
+    color: var(--green);
+    border-color: var(--green);
+}
+
+.first-steps .links a {
+    color: var(--dark-blue);
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.25em; 
+    font-weight: 500;
+    transition: transform 0.3s ease;
+    border: 1px solid var(--gray-1);
+    border-radius: 30px;
+    padding: 4px 8px;
+}
+
+.first-steps .links a:hover {
+    transform: scale(1.1);
+}
+
 
 .weeks {
     width: 70%;
