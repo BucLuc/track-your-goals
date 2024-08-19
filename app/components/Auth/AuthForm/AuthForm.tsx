@@ -1,6 +1,5 @@
 'use client'
-import { BsGithub, BsGoogle } from 'react-icons/bs';
-import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword, useUpdateProfile, useSignInWithGoogle, useSignInWithGithub } from 'react-firebase-hooks/auth'
+import { useAuthState, useUpdateProfile, useSignInWithGoogle, useSignInWithGithub } from 'react-firebase-hooks/auth'
 import styles from './AuthForm.module.css'
 
 import Button from '@components/FormComponents/Buttons/Button';
@@ -10,7 +9,7 @@ import AuthSocialButton from '@components/FormComponents/SocialButtons/AuthSocia
 
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation'
-import { auth, getDocument, setDocument, checkForUserDetailOrCreate } from '@services/firebaseService'
+import { auth, checkForUserDetailOrCreate } from '@services/firebaseService'
 import { sendEmailVerification, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import VerifyEmail from '@components/VerifyEmail/VerifyEmail';
 import ForgorPassword from '../../forgorEmail/ForgorPassword';
@@ -24,7 +23,7 @@ export default function AuthForm() {
     useEffect(() => {
         if (!loading && user) {
             if (user.emailVerified) {
-                router.push('/dashboard');
+                router.push('/dashboard')
             }
         }
     }, [user, loading, router]);
@@ -161,11 +160,11 @@ export default function AuthForm() {
                                     {variant === 'LOGIN' ? ' Erstelle einen' : ' Login'}
                                 </a>
                             </div>
-                            <a href='#' onClick={() => setForgorPassword(true)}>Passwort vergessen?</a>
+                            <a href='#' onClick={(e) => setForgorPassword(true)}>Passwort vergessen?</a>
                         </div>
                     </form>
                 }
-                {user && !user.emailVerified && <VerifyEmail email={user.email ?? ''} />}
+                {user && !user.emailVerified && <VerifyEmail user={user} />}
                 {forgorPassword && <ForgorPassword emailParam={formData.email} onBack={() => setForgorPassword(false)}/>}
             </div>
         </div>
