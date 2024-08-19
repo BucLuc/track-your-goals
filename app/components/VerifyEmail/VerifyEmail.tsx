@@ -29,7 +29,7 @@ const VerifyEmail: React.FC<Props> = ({ user }) => {
     };
 
     useEffect(() => {
-        const intervalId = setInterval(checkIfEmailVerified, 5000);
+        const intervalId = setInterval(checkIfEmailVerified, 2000);
 
         return () => clearInterval(intervalId);
     }, [user]);
