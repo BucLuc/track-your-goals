@@ -34,20 +34,17 @@ function GetActivitySummary(week: any) {
 
 function successfulWeek (week: any) {
     let successful = true
-    
+
     for (const day in week) {
-        if (week.hasOwnProperty(day)) {
-            if (weekDays.includes(day)) {
-                week[day].forEach((activity: any) => {
-                    if (activity.plannedAmount > activity.actualAmount){
-                        successful = false
-                    }
-                });
-            }
-        }
-
+        if (weekDays.includes(day)) {
+            for (const activity in week[day]){
+                if (Number(week[day][activity].plannedAmount) > Number(week[day][activity].actualAmount)) {
+                    successful = false
+                } 
+            }   
+        } 
     }
-
+    
     return successful
 }
 

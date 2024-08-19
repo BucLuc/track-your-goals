@@ -34,8 +34,7 @@
 .tabs h2.active {
     background-color: #fefefe;
     border-radius: 25px;
-    box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1),
-    -10px -10px 10px white;
+    box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1);
     transform: scale(1.1);
 }
 
@@ -97,10 +96,19 @@
     width: max(30%, 415px);
     margin-inline: auto;
     font-size: 1.45rem;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1);
+}
+
+.total-activities p {
+
 }
 
 .activity-name {
     font-size: 1.55rem;
+    font-weight: 500;
 }
 
 .bad {
